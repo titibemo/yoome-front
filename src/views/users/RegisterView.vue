@@ -1,7 +1,13 @@
 <template>
-<h1>page d'accueil</h1>
+
+    <h1>S'inscrire</h1>
+
 </template>
 
 <script setup>
 
 </script>
+
+<style>
+
+</style>
