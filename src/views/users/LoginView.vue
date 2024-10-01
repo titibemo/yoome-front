@@ -47,7 +47,6 @@ const login = async () => {
     });
 
     if (!response.ok) {
-        console.log('coucou');
       console.log("ERREUR");
       alert("utilisateur inconnu ou mot de passe incorrect");
       return;
