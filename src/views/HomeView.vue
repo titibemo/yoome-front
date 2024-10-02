@@ -7,6 +7,7 @@
     <div>Votre name :     {{ user?.lastname }}</div>
     <div>Votre prenom :     {{ user?.firstname }}</div>
     <div>Votre role :     {{ user?.role }}</div>
+
    
     <button type="submit" @click="deco">deconnexion</button> 
 </div>
@@ -18,7 +19,7 @@ import { useStore } from 'vuex';
 import {ref} from 'vue';
 import router from '@/router';
 
-const username = ref()
+
 onMounted(() => {
   store.dispatch('checkAuth');
   
