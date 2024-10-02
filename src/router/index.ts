@@ -16,9 +16,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/connexion',
     name: 'app_users_login',
     component: () => import('../views/users/LoginView.vue')
+  },
+  {
+    path: '/profiles',
+    name: 'app_users_profil',
+    component: () => import('../views/users/ProfilesView.vue'),
+    meta: { requiresAuth: true , requiresAdmin: true},
   }
 ]
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes

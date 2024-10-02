@@ -7,10 +7,11 @@
             <input type="email" placeholder="Email" v-model="email" />
             <input type="text" placeholder="Prenom" v-model="firstname" />
             <input type="text" placeholder="nom" v-model="lastname" />
-            <label for=""> <p class="pdate">Entrer votre date de naissance</p>
-            <input type="date" placeholder="Date de naissance"  v-model="birthdate" max="2006-01-01" />  
+            <label for="">
+                <p class="pdate">Entrer votre date de naissance</p>
+                <input type="date" placeholder="Date de naissance" v-model="birthdate" max="2006-01-01" />
             </label>
-            
+
             <input type="password" placeholder="mot de passe" v-model="password" />
             <input type="password" placeholder="valider le mot de passe" v-model="password2" />
 
@@ -33,67 +34,67 @@ const password = ref('')
 const password2 = ref('')
 
 const verify = () => {
- // verifier
- //Si c'est bon
-   message.value = ''
+    // verifier
+    //Si c'est bon
+    message.value = ''
     if (email.value.length <= 2) {
-        message.value =  message.value +'email incorrect'+ '  '
- 
-    }
-   
-    if (lastname.value.length <= 2){
-        message.value = message.value +'nom trop court' +'  '
-        
-    } 
+        message.value = message.value + 'email incorrect' + '  '
 
-    if (firstname.value.length <= 2){
-        message.value = (message.value +'Prenom trop court')
-      return
     }
 
-    if (password.value == password2.value){
+    if (lastname.value.length <= 2) {
+        message.value = message.value + 'nom trop court' + '  '
 
-       register(); 
-    }else {
+    }
+
+    if (firstname.value.length <= 2) {
+        message.value = (message.value + 'Prenom trop court')
+        return
+    }
+
+    if (password.value == password2.value) {
+
+        register();
+    } else {
         message.value = ('mdp incorrect')
     }
-    
+
 }
-const register = async () => { 
+const register = async () => {
 
-const data = {
- email :email.value,
- firstname: firstname.value,
- lastname :lastname.value,
- birthdate :birthdate.value,
- password :password.value
-};
+    const data = {
+        email: email.value,
+        firstname: firstname.value,
+        lastname: lastname.value,
+        birthdate: birthdate.value,
+        password: password.value
+    };
 
 
-try {
-  const response = await fetch('http://localhost:3000/api/users/register', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Accept': 'application/json, text/plain, /',
-      'Content-Type': 'application/json',
-    },
-  });
+    try {
+        const response = await fetch('http://localhost:3000/api/users/register', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json, text/plain, /',
+                'Content-Type': 'application/json',
+            },
+        });
 
-  if (!response.ok) {
-      console.log("ERREUR")
-      alert("erreur ")
-  }
+        if (!response.ok) {
+            console.log("ERREUR")
+            alert("erreur ")
+        }
 
-  const result = await response.json();
- 
+        const result = await response.json();
 
-  router.push('/connexion')
-  
-} catch (err) {
-  console.error('Error during register:', err);
-}
-  
+
+        router.push('/connexion')
+
+    } catch (err) {
+        console.error('Error during register:', err);
+    }
+
 };
 
 </script>
@@ -115,14 +116,14 @@ try {
     width: 25vw;
     gap: 20px;
     margin: 10px
-
 }
 
 .register input {
     padding: 5px;
     width: 20vw;
 }
-input.message{
+
+input.message {
     background-color: transparent;
     width: 1000px;
     text-align: center;
@@ -134,11 +135,11 @@ input.message{
     align-items: center;
     border: 0;
 }
-.pdate{
+
+.pdate {
     padding: 0;
     margin: 0;
-    left:10;
-    right:10 ;
+    left: 10;
+    right: 10;
 }
-
 </style>

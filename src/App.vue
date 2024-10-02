@@ -2,7 +2,8 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/inscription">S'inscrire</router-link>|
-    <router-link to="/connexion">Connexion</router-link>
+    <router-link to="/connexion">Connexion</router-link>|
+    <router-link to="/profiles">profiles</router-link>
   </nav>
   <router-view/>
 </template>
