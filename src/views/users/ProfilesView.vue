@@ -1,11 +1,12 @@
 <template>
+
     <div class="">
         <div class="">
             <h2 class="">Création de votre profil</h2>
             <progress class="" :value="QuestionIndex" :max="max" />
         </div>
 
-        <form @submit.prevent="fetchProfil" class=" ">
+        <form @submit.prevent="fetchProfil" enctype="multipart/form-data" class=" ">
    
             <div v-if="QuestionIndex === 0">
                 <h3>Photo</h3>
@@ -14,7 +15,7 @@
                     style="max-width: 200px; max-height: 200px; margin-top: 10px;">
                 <br><br>
 
-                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" @change="onFileChange" />
+                <input type="file" id="image" name="image" accept="image/*" @change="onFileChange" />
 
             </div>
 
@@ -108,7 +109,7 @@ const selectCity = (city) => {
 const suivant = () => {
     if (QuestionIndex.value < max.value) {
         QuestionIndex.value++;
-        // fetchProfil()
+         fetchProfil()
     }
 };
 
@@ -141,40 +142,36 @@ const onFileChange = (event) => {
 
 // Fonction pour envoyer les données au serveur
 const fetchProfil = async () => {
-    // Objet contenant les données à envoyer
+
+    const fileInput = document.getElementById('image');
+
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    formData.append('description', "t"); // Ajoute d'autres données
+    formData.append('localisation', "t");
+    formData.append('gender', "t");
+    formData.append('sexual_preference', "t");
+    formData.append('id_user', 10);
+
     const data = {
         description: "t",
         localisation: "t",
-        gender: "t",
-        selfie: imageUrl.value,  // Assurez-vous que l'image est en base64
+        gender: "t",// Assurez-vous que l'image est en base64
         sexual_preference: "t",
         id_user: 10
     };
-  
-
-    console.log('Données envoyées:', data);  // Vérifier les données avant l'envoi
-
+        
     try {
         const response = await fetch('http://localhost:3000/api/profiles/createProfil', {
             method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-            },
-        });
+            body: formData,
+            //image: formData
+        })
 
-        if (!response.ok) {
-            console.error('Erreur lors de la création du profil:', response.statusText);
-            return;
-        }
-
-        // Redirection après succès
-        console.log('Profil créé avec succès');
-        router.push('/');
     } catch (error) {
-        console.error('Erreur lors de la création du profil:', error);
+        console.error('Erreur lors de l\'upload :', error);
     }
+
 };
 
 

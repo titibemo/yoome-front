@@ -1,12 +1,12 @@
 <template>
 
-    <h1>connexion</h1>
-    <form @submit.prevent class="login"> 
-        <input type="text" placeholder="email" v-model="email" />
-        <input type="password" placeholder="password" v-model="password" />
-        <p>Vous avez pas de compte <router-link to="/inscription">inscriver-vous</router-link></p>
-        <button type="submit" @click="login">valider</button> 
-      </form>
+  <h1>connexion</h1>
+  <form @submit.prevent class="login"> 
+    <input type="text" placeholder="email" name="email" v-model="email" />
+    <input type="password" placeholder="password" v-model="password" />
+    <p>Vous avez pas de compte <router-link to="/inscription">inscriver-vous</router-link></p>
+    <button type="submit" @click="login">valider</button> 
+  </form>
 
 </template>
 
@@ -30,10 +30,13 @@ const setTokenStore = (token) => {
   router.push('/');
 };
 
+
+
 const login = async () => {
   const data = {
     email: email.value,
     password: password.value,
+    
   };
 
   try {
@@ -45,7 +48,8 @@ const login = async () => {
         'Content-Type': 'application/json',
       },
     });
-
+    
+    
     if (!response.ok) {
       console.log("ERREUR");
       alert("utilisateur inconnu ou mot de passe incorrect");
