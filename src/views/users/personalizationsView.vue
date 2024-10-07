@@ -7,16 +7,14 @@
         </div>
 
         <form @submit.prevent="fetchProfil" enctype="multipart/form-data" class=" ">
-   
+
             <div v-if="QuestionIndex === 0">
-                <h3>Photo</h3>
+                <h3>selectio</h3>
 
-                <img v-if="imageUrl" :src="imageUrl" alt="Aperçu de votre photo"
-                    style="max-width: 200px; max-height: 200px; margin-top: 10px;">
-                <br><br>
-
-                <input type="file" id="image" name="image" accept="image/*" @change="onFileChange" />
-
+                <select name="sexe" id="">
+                    <option value="">Homme</option>
+                    <option value="">Femme</option>
+                </select>
             </div>
 
 
@@ -25,12 +23,12 @@
                 <select name="sexe" id="">
                     <option value="">Homme</option>
                     <option value="">Femme</option>
-                  </select>
-                  <p>et vous rechercher : </p>
+                </select>
+                <p>et vous rechercher : </p>
                 <select name="sexe" id="">
                     <option value="">Homme</option>
                     <option value="">Femme</option>
-                  </select>
+                </select>
             </div>
 
             <div v-if="QuestionIndex === 2">
@@ -40,32 +38,24 @@
 
             <div v-if="QuestionIndex === 3">
                 <p>Votre ville :</p>
-                <input 
-                    type="text" 
-                    v-model="ville" 
-                    @input="filterCities" 
-                    placeholder="Tapez le nom de votre ville" 
-                />
+                <input type="text" v-model="ville" @input="filterCities" placeholder="Tapez le nom de votre ville" />
                 <div class="suggestions" v-if="filteredCities">
-                    <div 
-                        class="suggestion-item" 
-                        v-for="(city, index) in filteredCities" 
-                        :key="index" 
-                        @click="selectCity(city)"
-                    >
+                    <div class="suggestion-item" v-for="(city, index) in filteredCities" :key="index"
+                        @click="selectCity(city)">
                         {{ city }}
                     </div>
                 </div>
             </div>
-               
+
             <div v-if="QuestionIndex === 4">
                 <p>Félicitations, votre profil est maintenant complet !</p>
                 <button class="" @click.prevent="Continuer">Continuer</button>
             </div>
 
             <div class="">
-                <button class="" @click.prevent="precedent" v-if="QuestionIndex > 0 && QuestionIndex<max">Précédent</button>
-                <button class="" @click.prevent="suivant" v-if="QuestionIndex<max">Suivant</button>
+                <button class="" @click.prevent="precedent"
+                    v-if="QuestionIndex > 0 && QuestionIndex < max">Précédent</button>
+                <button class="" @click.prevent="suivant" v-if="QuestionIndex < max">Suivant</button>
             </div>
         </form>
     </div>
@@ -74,37 +64,13 @@
 <script setup>
 import router from '@/router';
 import { ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-
 
 const QuestionIndex = ref(0);
 const max = ref(4);
-const imageUrl = ref('');  
-const user = ref(computed(() => store.state.user)); 
-const imageName = ref('')
-const ville = ref('');
-const filteredCities = ref([]);
+const user = ref(computed(() => store.state.user));
 
-const cities = [
-    'Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Nantes', 
-    'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille', 'Rennes', 
-    'Reims', 'Saint-Étienne', 'Le Havre', 'Grenoble', 'Dijon', 
-    'Nîmes', 'Aix-en-Provence', 'Angers', 'Villeurbanne', 'Saint-Denis',
-    // Ajoutez d'autres villes si nécessaire
-];
-const filterCities = () => {
-    const searchQuery = ville.value.toLowerCase();
-    filteredCities.value = cities.filter(city => 
-        city.toLowerCase().includes(searchQuery)
-    );
-};
 
-const selectCity = (city) => {
-    ville.value = city; // Met à jour le champ avec la ville sélectionnée
-    filteredCities.value = []; // Vide les suggestions
-};
+
 
 const suivant = () => {
     if (QuestionIndex.value < max.value) {
@@ -123,22 +89,7 @@ const Continuer = () => {
 };
 
 
-// Fonction pour gérer le changement d'image
-const onFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
 
-        imageName.value = file.name;  // Stocke le nom de l'image
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            imageUrl.value = e.target.result; // Contient les données de l'image en base64
-
-        };
-        
-        reader.readAsDataURL(file); // Convertit le fichier en Base64
-    }
-};
 
 // Fonction pour envoyer les données au serveur
 const fetchProfil = async () => {
@@ -160,7 +111,7 @@ const fetchProfil = async () => {
         sexual_preference: "t",
         id_user: 10
     };
-        
+
     try {
         const response = await fetch('http://localhost:3000/api/profiles/createProfil', {
             method: 'POST',
