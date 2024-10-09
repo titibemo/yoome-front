@@ -65,7 +65,7 @@ const verify = () => {
     
     if (password.value.length && email.value.length && firstname.value.length && lastname.value.length && birthdate.value.length && password.value === password2.value) {
         register();
-       router.push('profiles')
+       router.push('/profiles')
     } else {
         alert("Les mots de passe ne correspondent pas.");
     }

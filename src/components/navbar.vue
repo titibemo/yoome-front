@@ -4,7 +4,7 @@
             <img src="./../../public/Fichier_3-8.png" alt="">
         </div>
         <div @click="toggleBurgerMenu" class="burgerButton">
-            <svg width="64px" height="48px" viewBox="0 0 24 24"  fill="#000000" color
+            <svg width="40px" height="48px" viewBox="0 0 24 24"  fill="#000000" color
                 xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -61,8 +61,8 @@ const accueil = () =>{
     padding: 10px;
     background-color: $primary ;
     align-items: center;
-
     z-index: 111;
+    height: 70px;
 
     a{
         text-decoration: none;
@@ -71,7 +71,7 @@ const accueil = () =>{
     .logo {
         img {
 
-            height: 5vh;
+            height: 30px;
         }
     }
     .burgerButton{

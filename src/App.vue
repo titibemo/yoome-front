@@ -34,7 +34,7 @@ $white: #ffecec;
   background-color:$white;
   box-sizing: content-box;
   overflow: hidden;
-  padding: 75px 0;
+  padding: 70px 0;
 
 }
 

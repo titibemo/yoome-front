@@ -4,8 +4,8 @@
   <img class="logo" src="./../assets/pictures/home/logo.png" alt="">
   <p class="">Vivez</p>
   <span>VOTRE histoire</span>
-  <button class="register">INSCRIPTION</button>
-  <button class="login">CONNEXION</button>
+  <button @click="register" class="register">INSCRIPTION</button>
+  <button @click="login" class="login">CONNEXION</button>
   
   <p class="marquee">
   <span>
@@ -39,38 +39,8 @@
 
 <section class="review">
   <h2>Découvrez nos avis clients</h2>
-<!--
-  <div class="carousel">
-    <div class="carousel-inner" :style="carouselStyle">
-      <div class="slide" v-for="(slide, index) in slides" :key="index">
-        <h3>"Après mon divorce, je pensais que ma vie amoureuse était terminée."</h3>
-        <p>Ce site m'a donné espoir. Les profils sont serieux, et les outils pour trouver des gens compatibles sont vraiment efficaces. J'ai trouvé quelqu'un avec qui je peux construire une nouvelle vie, tout en fardant ma fille comme priorité"</p>
-        <div>
-          <img class="reviewPictures" src="./../assets/pictures/home/heart.png" alt="">
-          <p class="strong"> <em>Julie <span class="ages">36 ans,</span><br>
-              MAMAN D'UNE ADOLESCENTE </em>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class id="dots-con" >
 
-      <span v-for="(slide, index) in slides" :key="index" class="dot" :style="{backgroundColor: currentIndex == index ? 'rgba(249, 112, 104, 1)' : 'rgba(219, 228, 245, 1)'}"></span>
-
-    </div>
-   
-    <span class="prev" @click="prev">←</span>
-    <span class="next" @click="next">→</span>
-
-  
-  </div>
--->
   <SliderDraggable></SliderDraggable>
-
-  
-
-
-
 
 </section>
 
@@ -146,6 +116,16 @@ const deco = () => {
       }
     };
 
+    const register = () => {
+      router.push('/inscription')
+    }
+    const login = () => {
+      router.push('/connexion')
+    }
+
+    /*function register (){
+      
+    }*/
 
 </script>
 
@@ -212,7 +192,7 @@ header{
   position: absolute;
   color: white;
   width: 100%;
-  top: 75%
+  top: 82%
 
 }
 

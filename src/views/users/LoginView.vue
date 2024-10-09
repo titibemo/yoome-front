@@ -27,7 +27,7 @@ const setTokenStore = (token) => {
   store.commit('setToken', token);
   store.commit('createToken', token);
 
-  router.push('/');
+  router.push('/profiles');
 };
 
 

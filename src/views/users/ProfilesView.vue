@@ -168,7 +168,7 @@ const like = ref([])
 const localisation = ref('')
 
 const selectedQuestionIndex = ref(null);
-const QuestionIndex = ref(4);
+const QuestionIndex = ref(0);
 const max = ref(5);
 const disa = ref(false)
 const imageUrl = ref('');
@@ -395,7 +395,7 @@ button{
     z-index: 1; 
 
     .progressFull {
-        height: 2vh;
+        height: 10px;
         background-color: rgba(255, 255, 255, 1);
         position: absolute;
         display: flex;
@@ -403,7 +403,7 @@ button{
         justify-content: start;
         left: 0;
         width: 100%;
-        top: 10px;
+        top: 0px;
         z-index: 5;
 
         .progress {
