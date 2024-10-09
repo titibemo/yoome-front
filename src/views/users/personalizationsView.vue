@@ -133,26 +133,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.green {
-    background-color: rgb(171, 255, 163);
-}
 
-.red {
-    background-color: rgb(255, 137, 137);
-}
-
-progress::-webkit-progress-bar {
-    background-color: rgba(231, 231, 231, 0.822);
-    height: 5px;
-    border-radius: 20px;
-}
-
-progress::-webkit-progress-value {
-    background-color: #0e7490;
-    border-radius: 20px;
-}
-
-progress::-moz-progress-bar {
-    border-radius: 20px;
-}
 </style>
