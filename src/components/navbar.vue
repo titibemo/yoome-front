@@ -58,6 +58,7 @@ const toggleBurgerMenu = () => {
     padding: 10px;
     background-color: $primary ;
     align-items: center;
+    z-index: 99;
     a{
         text-decoration: none;
         color:$white;

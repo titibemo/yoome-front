@@ -1,6 +1,83 @@
 <template>
-<h1>page d'accueil</h1>
 
+<header class="">
+  <img class="logo" src="./../assets/pictures/home/logo.png" alt="">
+  <p class="">Vivez</p>
+  <span>VOTRE histoire</span>
+  <button class="register">INSCRIPTION</button>
+  <button class="login">CONNEXION</button>
+  
+  <p class="marquee">
+  <span>
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+  </span>
+</p>
+<p class="marquee marquee2">
+  <span> 
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+    you <strong> and </strong> me
+    <img class="heart" src="./../assets/pictures/home/heart.png" alt="">
+</span>
+</p>
+</header>
+
+<section class="review">
+  <h2>Découvrez nos avis clients</h2>
+<!--
+  <div class="carousel">
+    <div class="carousel-inner" :style="carouselStyle">
+      <div class="slide" v-for="(slide, index) in slides" :key="index">
+        <h3>"Après mon divorce, je pensais que ma vie amoureuse était terminée."</h3>
+        <p>Ce site m'a donné espoir. Les profils sont serieux, et les outils pour trouver des gens compatibles sont vraiment efficaces. J'ai trouvé quelqu'un avec qui je peux construire une nouvelle vie, tout en fardant ma fille comme priorité"</p>
+        <div>
+          <img class="reviewPictures" src="./../assets/pictures/home/heart.png" alt="">
+          <p class="strong"> <em>Julie <span class="ages">36 ans,</span><br>
+              MAMAN D'UNE ADOLESCENTE </em>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class id="dots-con" >
+
+      <span v-for="(slide, index) in slides" :key="index" class="dot" :style="{backgroundColor: currentIndex == index ? 'rgba(249, 112, 104, 1)' : 'rgba(219, 228, 245, 1)'}"></span>
+
+    </div>
+   
+    <span class="prev" @click="prev">←</span>
+    <span class="next" @click="next">→</span>
+
+  
+  </div>
+-->
+  <SliderDraggable></SliderDraggable>
+
+  
+
+
+
+
+</section>
+
+
+
+
+<!--
 <div class="profile">
       
     <div> Votre email  :    {{ user?.email }}</div>
@@ -10,7 +87,7 @@
 
    
     <button type="submit" @click="deco">deconnexion</button> 
-</div>
+</div>-->
 </template>
 
 <script setup>
@@ -18,6 +95,8 @@ import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import {ref} from 'vue';
 import router from '@/router';
+
+import SliderDraggable from '@/components/SliderDraggable.vue';
 
 
 onMounted(() => {
@@ -31,4 +110,239 @@ const deco = () => {
     store.dispatch('logout')
     router.push('/connexion')
 }
+
+//--------carroussel
+
+
+    const slides = ref([0, 1, 2, 3, 4]);
+    const currentIndex = ref(0);
+
+    const carouselStyle = computed(() => ({
+      transform: `translateX(-${currentIndex.value * 100}%)`,
+      transition: 'transform 0.3s ease',
+    }));
+
+    const next = () => {
+      currentIndex.value = currentIndex.value + 1
+
+      if(currentIndex.value>slides.value.length-1){
+        currentIndex.value=0;
+      }
+  
+      if(currentIndex.value<0){
+        currentIndex.value=slides.value.length-1;
+      }
+    };
+
+    const prev = () => {
+      currentIndex.value = currentIndex.value - 1 ;
+
+      if(currentIndex.value>slides.value.length-1){
+        currentIndex.value=0;
+      }
+  
+      if(currentIndex.value<0){
+        currentIndex.value=slides.value.length-1;
+      }
+    };
+
+
 </script>
+
+<style scoped lang="scss">
+$primary: rgba(249, 112, 104, 1);
+$second: rgba(219, 228, 245, 1);
+$black: rgba(34, 35, 38, 1);
+$white: rgba(255, 236, 236, 1);
+
+
+//----------------------------HEADER
+header{
+  background: rgba(0, 0, 0, 0.5) url("./../assets/pictures/home/wedding-hands.jpg");
+  background-size: cover;
+  background-blend-mode: darken;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content:space-around;
+
+}
+.logo{
+  padding-top: 10vh;
+  width: 70%;
+  margin: auto;
+}
+.logo + p{
+  font-size: 4em;
+  color: white;
+  font-weight: 600;
+}
+.logo + p + span{
+  font-size: 1.2em;
+  color: white;
+  font-weight: 600;
+}
+.register{
+  border-radius: 10px;
+  margin: 30px 0 5px 0;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.login{
+  background-color: $second;
+  color: black;
+  margin-bottom: 10vh;
+  border-radius: 10px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.marquee {
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute;
+  color: white;
+  width: 100%;
+  top: 75%
+
+}
+
+.marquee span {
+  display: inline-block;
+  padding-left: 135%;
+  animation: marquee 8s linear infinite;
+}
+
+.marquee2 span {
+  animation-delay: 4s;
+}
+
+.heart{
+  width: 20px;
+  height: 13px;
+  padding: 0 5px;
+}
+
+//-------------------------------REVIEW
+
+.review{
+  background-color: white;
+  h2{
+    padding: 30px;
+    color: black;
+    font-size: 1.5em;
+  }
+  .carousel {
+    display: relative;
+    width: 80%;
+    position: relative;
+    margin: auto;
+    border-radius: 10px;
+    .prev, .next{
+      position: absolute;
+      border-radius: 5px;
+      background-color: $primary;
+      top: 35%;
+      width: 20px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+    }
+    .next{
+      right: 5px;
+    }
+    .prev{
+      left: 5px;
+    }
+    .carousel-inner {
+      display: flex;
+    }
+    .slide {
+      overflow: hidden;
+      border: 1px solid lightgrey;
+      min-width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 10px;
+      padding: 0 20px;
+      margin: auto;
+      h3{
+        width: 90%;
+        font-size: 0.9em;
+        font-style: italic;
+        text-align: left;
+        color: black;
+        margin: auto;
+        padding: 10px
+      }
+      p{
+        width: 90%;
+        margin: auto;
+        font-size: 0.9em;
+        text-align: left;
+        padding: 10px
+      }
+      div{
+        display: flex;
+        width: 90%;
+        margin-bottom: 15px;
+        img{
+          border: 1px solid $primary;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+        p{
+          color: $primary;
+          font-size: 0.7em;
+          font-weight: bolder;
+          font-style: normal;
+          .ages{
+            font-weight: 100;
+          }
+        }
+      }
+    }
+
+  }
+}
+#dots-con{
+  text-align:center;
+}
+.dot{
+  display:inline-block;
+  background:lightgrey;
+  padding:6px;
+  border-radius:50%;
+  margin:10px 5px 20px 5px;
+}
+
+
+
+ /* carrousel */
+
+
+
+
+
+
+@keyframes marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100%, 0);
+  }
+}
+</style>
