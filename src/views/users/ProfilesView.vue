@@ -7,6 +7,7 @@
 
         <div class="bodypage" v-if="QuestionIndex === 0">
             <p>1/6. Combien d’enfants avez-vous ? </p>
+           
             <div class="suggestion-item" v-for="(question, index) in question1" :key="index"
                 @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
                 {{ question }}
@@ -98,10 +99,10 @@
                     <option value="bordeaux">Bordeaux</option>
                 </select>
             </div>
-            <p class="nomInput2">GENRE RECHERCHER</p>
+            <p class="nomInput2">GENRE RECHERCHÉ</p>
             <div class="paddNone">
                 <FlFilledPeopleCommunity class="icon" />
-                <select name="sexe" id="" required>
+                <select name="sexe" id="" v-model="genreRecherche" required>
                     <option value=""></option>
                     <option value="homme">Homme</option>
                     <option value="femme">Femme</option>
@@ -113,7 +114,7 @@
             </div>
         </div>
         <button type="submit" @click="suivant" :disabled="!disa">SUIVANT</button>
-
+        
     </div>
 </template>
 
@@ -122,6 +123,9 @@ import router from '@/router';
 import { ref } from 'vue';
 import { FlFilledPeopleCommunity, MdDescription, AnOutlinedCheckCircle,MdOutlinedAddAPhoto } from '@kalimahapps/vue-icons';
 import { computed } from 'vue';
+import store from '@/store';
+
+const user = computed(() => store.state.user || {});
 
 const question1 = ["1", "2", "3", "4", "5 ET +"];
 const question2 = ["CÉLIBATAIRE", "SÉPARÉ/ÉE", "DIVORCÉ/ÉE", "VEUF/VEUVE"];
@@ -166,6 +170,7 @@ const situation = ref('');
 const descrip = ref([])
 const like = ref([])
 const localisation = ref('')
+const genreRecherche =ref('')
 
 const selectedQuestionIndex = ref(null);
 const QuestionIndex = ref(0);
@@ -177,7 +182,6 @@ const getPercentage = () => {
     return (QuestionIndex.value / max.value) * 100;
 };
 
-const user = ref(computed(() => store.state.user));
 
 const onFileChange = (event) => {
     const file = event.target.files[0];
@@ -201,6 +205,8 @@ const add = (question, index) => {
 
     if (QuestionIndex.value === 0) {
         nbenfant.value = question; // Mettez à jour le nombre d'enfants
+        console.log(user.value.id);
+        
         disa.value = true
     }
     if (QuestionIndex.value === 1) {
@@ -291,9 +297,9 @@ const fetchProfil = async () => {
     const formData = new FormData();
     formData.append('image', fileInput.files[0]);
     formData.append('description', descrip.value); // Ajoute d'autres données
-    formData.append('localisation',);
+    formData.append('localisation',localisation.value);
     formData.append('gender', "t");
-    formData.append('sexual_preference', "t");
+    formData.append('sexual_preference', genreRecherche.value);
     formData.append('id_user', 10);
 
     const data = {
