@@ -2,10 +2,12 @@
 
   <navbar />
   <router-view />
-  
+  <Footer></Footer>
+
 </template>
 <script setup>
 import Navbar from './components/navbar.vue';
+import Footer from './components/Footer.vue';
 
 
 </script>
@@ -31,7 +33,9 @@ $white: #ffecec;
   color: #2c3e50;
   background-color:$white;
   box-sizing: content-box;
-  padding: 60px 0;
+  overflow: hidden;
+  padding: 75px 0;
+
 }
 
 
@@ -50,11 +54,9 @@ button {
 
 nav {
   padding: 50px;
-
   a {
     font-weight: bold;
     color: #2c3e50;
-
     &.router-link-exact-active {
       color: #42b983;
     }

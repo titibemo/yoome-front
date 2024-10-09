@@ -61,7 +61,9 @@ const accueil = () =>{
     padding: 10px;
     background-color: $primary ;
     align-items: center;
+
     z-index: 111;
+
     a{
         text-decoration: none;
         color:$white;
