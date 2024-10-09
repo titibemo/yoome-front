@@ -1,55 +1,88 @@
 <template>
-    <div class="bodyRegister">
+    <div class="bodyRegister , logo-repete">
         <div class="progressFull">
             <div :style="`width:${getPercentage()}%`" class="progress"></div>
         </div>
 
-        <form @submit.prevent class="bodypage" v-if="QuestionIndex === 0">
-            <div>
-                <HeFilledUiUserProfile class="icon" />
-                <input type="text" placeholder="NOM" v-model="lastname" required />
+
+        <div class="bodypage" v-if="QuestionIndex === 0">
+            <p>1/6. Combien d’enfants avez-vous ? </p>
+            <div class="suggestion-item" v-for="(question, index) in question1" :key="index"
+                @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
+                {{ question }}
             </div>
-            <div>
-                <IcProfileCircle class="icon" />
-                <input type="text" placeholder="PRENOM" v-model="firstname" required />
+        </div>
+
+        <div class="bodypage" v-if="QuestionIndex === 1">
+            <p>2/6. Quelle est votre situation ? </p>
+            <div class="suggestion-item" v-for="(question, index) in question2" :key="index"
+                @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
+                {{ question }}
+            </div>
+        </div>
+
+        <div class="bodypage2" v-if="QuestionIndex === 2">
+            <p>3/6. Décrivez-vous. </p>
+            <div class="characterTraits-container">
+                <div class="characterTraits-item" v-for="(question, index) in question3" :key="index"
+                    @click="toggleSelection(index, question)" :class="{ selected: descrip.includes(question) }">
+                    {{ question }}
+                </div>
+            </div>
+        </div>
+        <div class="bodypage2" v-if="QuestionIndex === 3">
+            <p>4/6. Qu'aimer-vous ? </p>
+            <div class="characterTraits-container">
+                <div class="characterTraits-item" v-for="(question, index) in question4" :key="index"
+                    @click="toggleSelection(index, question)" :class="{ selected: like.includes(question) }">
+                    {{ question }}
+                </div>
+            </div>
+        </div>
+
+        <div class="bodypage3" v-if="QuestionIndex === 4">
+            <h3>5/6. Ajouter votre <br> photo principale </h3>
+
+
+            <!-- <img v-if="imageUrl" :src="imageUrl" alt="Aperçu de votre photo" class="apercuImage"><br>
+
+            <input type="file" id="image" name="image" accept="image/*" @change="onFileChange" />
+             -->
+             <label class="file-upload">
+                <input type="file" id="image" name="image" accept="image/*" @change="onFileChange" />
+                <img v-if="imageUrl" :src="imageUrl" alt="Aperçu de votre photo" class="file-upload">
+                <MdOutlinedAddAPhoto class="uploadPicture"/>
+            </label>
+            <div class="texticonimage">
+
+                <p>
+                    <AnOutlinedCheckCircle class="icon" />
+                    Soyez reconnaissable
+                </p>
+                <p>
+                    <AnOutlinedCheckCircle class="icon" />
+                    N’inclut pas de 2ème personne
+                </p>
+                <p>
+                    <AnOutlinedCheckCircle class="icon" />
+                    Ne contient pas de photos inappropriées
+                </p>
+                <p>
+                    <AnOutlinedCheckCircle class="icon" />
+                    N’est pas floues ou de mauvaise qualité
+                </p>
             </div>
 
-            <p class="nomInput">GENRE</p>
-            <div class="paddNone">
-                <FlFilledPeopleCommunity class="icon" />
-                <select name="sexe" id="" required>
-                    <option value=""></option>
-                    <option value="homme">Homme</option>
-                    <option value="femme">Femme</option>
-                </select>
-            </div>
-            <p class="nomInput2">DATE DE NAISSANCE</p>
-            <div class="paddNone">
-                <McBirthday2Fill class="icon" />
-                <input type="date" class="dateN" placeholder="Date de naissance" v-model="birthdate" max="2006-01-01"
-                    required />
-            </div>
-            <div>
-                <CoBrandMailRu class="email" />
-                <input type="email" placeholder="EMAIL" v-model="email" required />
-            </div>
-            <div>
-                <CgKeyhole class="icon" />
-                <input type="password" placeholder="MOT DE PASS" v-model="password" required />
-            </div>
-            <div>
-                <CgKeyhole class="icon" />
-                <input type="password" placeholder="VALIDER MOT DE PASS" v-model="password2" required />
-            </div>
-            <button type="submit" @click="verify">SUIVANT</button>
-        </form>
 
-        <div @submit.prevent class="bodypage" v-if="QuestionIndex === 1">
+
+        </div>
+
+        <div @submit.prevent class="bodypage" v-if="QuestionIndex === 5">
             <p class="titreInfo">INFORMATION SUPPLEMENTAIRE</p>
             <p class="nomInput3">VOTRE VILLE</p>
             <div class="paddNone">
                 <FlFilledPeopleCommunity class="icon" />
-                <select name="ville" id="ville" required>
+                <select name="ville" id="ville" v-model="localisation" required>
                     <option value=""></option>
                     <option value="lille">Lille</option>
                     <option value="tourcoing">Tourcoing</option>
@@ -79,86 +112,148 @@
                 <textarea placeholder="Décrivez-vous ainsi que la personne de vos rêves." name="" id=""></textarea>
             </div>
         </div>
+        <button type="submit" @click="suivant" :disabled="!disa">SUIVANT</button>
 
-        <div class="bodypage" v-if="QuestionIndex === 2">
-            <p>1/5. Combien d’enfants avez-vous ? </p>
-            <div class="suggestion-item" v-for="(question, index) in question1" :key="index"
-                @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
-                {{ question }}
-            </div>
-        </div>
-
-        <div class="bodypage" v-if="QuestionIndex === 3">
-            <p>2/5. Quelle est votre situation ? </p>
-            <div class="suggestion-item" v-for="(question, index) in question2" :key="index"
-                @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
-                {{ question }}
-            </div>
-        </div>
-
-        <div class="bodypage2" v-if="QuestionIndex === 4">
-            <p>3/5. choisis des trucs </p>
-            <div class="characterTraits-container">
-                <div class="characterTraits-item" v-for="(question, index) in question3" :key="index"
-                    @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
-                    {{ question }}
-                </div>
-            </div>
-        </div>
-
-        <button type="submit" @click="suivant" :disabled="!disa" v-if="QuestionIndex >= 1">SUIVANT</button>
     </div>
 </template>
 
 <script setup>
 import router from '@/router';
 import { ref } from 'vue';
-import { HeFilledUiUserProfile, IcProfileCircle, FlFilledPeopleCommunity, McBirthday2Fill, CoBrandMailRu, CgKeyhole, MdDescription } from '@kalimahapps/vue-icons';
+import { FlFilledPeopleCommunity, MdDescription, AnOutlinedCheckCircle,MdOutlinedAddAPhoto } from '@kalimahapps/vue-icons';
+import { computed } from 'vue';
 
-const email = ref('');
-const firstname = ref('');
-const lastname = ref('');
-const birthdate = ref('');
-const password = ref('');
-const password2 = ref('');
+const question1 = ["1", "2", "3", "4", "5 ET +"];
+const question2 = ["CÉLIBATAIRE", "SÉPARÉ/ÉE", "DIVORCÉ/ÉE", "VEUF/VEUVE"];
+const question3 = [
+    "EMPATHIQUE",
+    "ATTENTIONNÉ/E",
+    "CRÉATIF/VE",
+    "AMBITIEUX/IEUSE",
+    "INTROVERTI",
+    "CURIEUX/EUSE",
+    "ORGANISÉ/E",
+    "EXTRAVERTI",
+    "AVENTURIER",
+    "PASSIONNÉ/E",
+    "PATIENT/E",
+    "RÉSERVÉ",
+    
+    "CALME",
+    
+]
+const question4 = [
+    "PHOTOGRAPHIE",
+    "JUNK FOOD",
+    "RANDONNÉE",
+    "HEALTHY FOOD",
+    "CINÉMA/SÉRIES TV",
+    "MANGA",
+    "LECTURE",
+    "SOIRÉES ENTRE AMIS",
+    "SPORT",
+    "JEUX VIDÉOS",
+    "MUSIQUE",
+    "VOYAGES",
+    "ANIMAUX",
+
+    "MUSÉE",
+];
+
 
 const nbenfant = ref('');
-const question1 = [ "1", "2", "3", "4", "5 ET +"];
-const question2 = [ "CÉlibataire","SÉPARÉ/ÉE","DIVORCÉ/ÉE","VEUF/VEUVE"];
-const question3 = ["EMPATHIQUE", "CRÉATIF/VE", "INTROVERTI", "PATIENT/E", "AVENTURIER", "ATTENTIONNÉ/E", "CALME", "PASSIONNÉ/E", "RÉSERVÉ", "AMBITIEUX/IEUSE", "CURIEUX/EUSE", "ORGANISÉ/E", "EXTRAVERTI"]
+const situation = ref('');
+const descrip = ref([])
+const like = ref([])
+const localisation = ref('')
 
 const selectedQuestionIndex = ref(null);
-const QuestionIndex = ref(4); // Démarre à 0 pour la première question
-const max = ref(4);
+const QuestionIndex = ref(4);
+const max = ref(5);
 const disa = ref(false)
+const imageUrl = ref('');
+const imageName = ref('');
 const getPercentage = () => {
-    return (QuestionIndex.value / max.value) * 100; // Modifiez pour correspondre à max
+    return (QuestionIndex.value / max.value) * 100;
 };
 
-const verify = () => {
-    if (password.value.length && password.value === password2.value) {
-        register();
-        suivant();
-    } else {
-        alert("Les mots de passe ne correspondent pas.");
+const user = ref(computed(() => store.state.user));
+
+const onFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+
+        imageName.value = file.name;  // Stocke le nom de l'image
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            imageUrl.value = e.target.result; // Contient les données de l'image en base64
+
+        };
+        if (imageName.value.length >= 1) {
+            disa.value = true
+        } else disa.value = false
+        reader.readAsDataURL(file); // Convertit le fichier en Base64
     }
 };
-
 const add = (question, index) => {
     selectedQuestionIndex.value = index; // Mettez à jour l'index sélectionné
-    nbenfant.value = question; // Mettez à jour le nombre d'enfants
-    console.log(nbenfant.value);
-    disa.value = !disa.value
+
+    if (QuestionIndex.value === 0) {
+        nbenfant.value = question; // Mettez à jour le nombre d'enfants
+        disa.value = true
+    }
+    if (QuestionIndex.value === 1) {
+        situation.value = question;
+        disa.value = true
+    }
+
+
+
+};
+
+const toggleSelection = (index, question) => {
+    if (QuestionIndex.value === 2) {
+
+        if (descrip.value.includes(question)) {
+            descrip.value = descrip.value.filter(item => item !== question);
+        } else if (descrip.value.length < 3) {
+            descrip.value.push(question);
+
+
+
+        }
+        if (descrip.value.length >= 1) {
+            disa.value = true
+        } else disa.value = false
+    }
+    if (QuestionIndex.value === 3) {
+
+        if (like.value.includes(question)) {
+            like.value = like.value.filter(item => item !== question);
+        } else if (like.value.length < 3) {
+            like.value.push(question);
+
+            console.log(like.value);
+        }
+        if (like.value.length >= 1) {
+            disa.value = true
+        } else disa.value = false
+    }
+
+
 };
 
 const suivant = () => {
-    
-        QuestionIndex.value++;
-        // fetchProfil() // Si vous avez une fonction pour récupérer le profil, décommentez ceci
-    
+    selectedQuestionIndex.value = "";
+    QuestionIndex.value++;
+    disa.value = false
+    // fetchProfil() 
+
 };
 
-const register = async () => {
+
+const fetchPerso = async () => {
     const data = {
         email: email.value,
         firstname: firstname.value,
@@ -188,10 +283,53 @@ const register = async () => {
         console.error('Error during register:', err);
     }
 };
+
+const fetchProfil = async () => {
+
+    const fileInput = document.getElementById('image');
+
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    formData.append('description', descrip.value); // Ajoute d'autres données
+    formData.append('localisation',);
+    formData.append('gender', "t");
+    formData.append('sexual_preference', "t");
+    formData.append('id_user', 10);
+
+    const data = {
+        description: "t",
+        localisation: "t",
+        gender: "t",// Assurez-vous que l'image est en base64
+        sexual_preference: "t",
+        id_user: 10
+    };
+
+    try {
+        const response = await fetch('http://localhost:3000/api/profiles/createProfil', {
+            method: 'POST',
+            body: formData,
+            //image: formData
+        })
+
+    } catch (error) {
+        console.error('Erreur lors de l\'upload :', error);
+    }
+
+};
+
 </script>
 
 <style lang="scss" scoped>
 @import "@/style/variablecouleur.scss";
+
+.icon {
+
+    color: $primary;
+}
+
+button{
+    z-index: 50; 
+}
 
 .suggestion-item {
     padding: 10px;
@@ -209,30 +347,70 @@ const register = async () => {
     /* Change la couleur du texte si nécessaire */
 }
 
+.logo-repete {
+    position: relative; /* Set position relative for pseudo-element */
+    width: 100%;
+    height: 100%;
+}
+
+.logo-repete::before {
+    content: ''; /* Necessary for the pseudo-element */
+    position: absolute; /* Position it absolutely */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('./../../../public/pattern.png'); 
+    background-size: 60px;
+    background-repeat: repeat;
+    opacity: 0.1; /* Set opacity for the background image */
+    z-index: 0; /* Send it to the back */
+}
+
+.file-upload {
+    width: 300px; 
+    height: 400px; 
+    border: 1px solid rgba(249, 112, 104, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; 
+    border-radius: 35px;
+    margin: auto;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.uploadPicture{
+    width: 60px;
+    height: 60px;
+}
 .bodyRegister {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-color: $white;
+    z-index: 1; 
 
     .progressFull {
         height: 2vh;
-        background-color: rgba(219, 228, 245, 1);
+        background-color: rgba(255, 255, 255, 1);
         position: absolute;
         display: flex;
         align-items: center;
         justify-content: start;
         left: 0;
         width: 100%;
-        top: 71px;
+        top: 10px;
         z-index: 5;
 
         .progress {
             z-index: 6;
             height: 50%;
             transition: 0.5s;
-            background-color: rgba(186, 203, 234, 1);
+            background-color: rgba(250, 177, 173, 1);
         }
     }
 
@@ -242,6 +420,22 @@ const register = async () => {
         justify-content: center;
         flex-direction: column;
         align-items: center;
+        color: $primary;
+        font-weight: 600;
+        z-index: 50; 
+        h3,
+        p {
+            color: black;
+            margin-bottom: 40px;
+
+        }
+
+        .apercuImage {
+            background-color: aqua;
+            height: 80%;
+            width: 80%;
+
+        }
 
         select,
         .dateN {
@@ -293,18 +487,6 @@ const register = async () => {
             border-radius: 999px;
             text-align: center;
 
-            .email {
-                width: 15%;
-                height: 60%;
-                color: $primary;
-            }
-
-            .icon {
-                width: 15%;
-                height: 70%;
-                color: $primary;
-            }
-
             input {
                 width: 80vw;
                 height: 40px;
@@ -321,6 +503,8 @@ const register = async () => {
                 margin-right: 15px;
             }
 
+
+
             p {
                 color: $primary;
                 padding-left: 48%;
@@ -328,7 +512,7 @@ const register = async () => {
             }
         }
 
-       
+
 
         .textarea {
             display: flex;
@@ -341,20 +525,31 @@ const register = async () => {
             border-radius: 20px;
         }
     }
+
     .bodypage2 {
         margin-top: 100px;
-        display:  flex;
+        display: flex;
         justify-content: center;
         flex-direction: column;
         align-items: center;
+        color: $primary;
+        font-weight: 600;
+        z-index: 50; 
+
+        h3,
+        p {
+            color: black;
+            margin-bottom: 40px;
+        }
+
         .characterTraits-container {
             display: flex;
             justify-content: space-between;
             flex-direction: row;
             flex-wrap: wrap;
             align-items: center;
-           
-            width: 65%;
+
+            width: 85%;
 
             .characterTraits-item {
                 display: flex;
@@ -368,6 +563,7 @@ const register = async () => {
                 text-align: center;
                 padding: 0 20px;
                 cursor: pointer;
+
                 input {
                     width: 80vw;
                     height: 40px;
@@ -375,17 +571,39 @@ const register = async () => {
                     border: 0;
                     margin-right: 15px;
                 }
-        
-            
+
+
+
                 p {
                     color: $primary;
                     padding-left: 48%;
                     padding-right: 50%;
                 }
-            }           
+            }
         }
 
-        
+
+    }
+
+    .bodypage3 {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        color: $primary;
+        font-weight: 600;
+        z-index: 50; 
+        .texticonimage {
+            margin-top: 50px;
+        }
+
+        h3,
+        p {
+            text-align: left;
+            margin: 5px;
+            color: black;
+        }
     }
 }
 </style>
