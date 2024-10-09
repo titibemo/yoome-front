@@ -2,9 +2,11 @@
 
   <navbar />
   <router-view />
+  <Footer></Footer>
 </template>
 <script setup>
 import Navbar from './components/navbar.vue';
+import Footer from './components/Footer.vue';
 
 
 </script>
@@ -30,7 +32,11 @@ $white: #ffecec;
   color: #2c3e50;
   background-color:$white;
   box-sizing: content-box;
+
+  overflow: hidden;
+
   padding: 75px 0;
+
 }
 
 
