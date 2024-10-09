@@ -2,6 +2,7 @@
 
   <navbar />
   <router-view />
+  
 </template>
 <script setup>
 import Navbar from './components/navbar.vue';
@@ -30,7 +31,7 @@ $white: #ffecec;
   color: #2c3e50;
   background-color:$white;
   box-sizing: content-box;
-  padding: 75px 0;
+  padding: 60px 0;
 }
 
 

@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/profiles',
     name: 'app_users_profil',
     component: () => import('../views/users/ProfilesView.vue'),
-    meta: { requiresAuth: true , requiresAdmin: true},
+    meta: { requiresAuth: true , requiresAdmin: false},
   }
 ]
 const router = createRouter({
