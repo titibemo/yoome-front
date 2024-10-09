@@ -11,10 +11,10 @@ import Footer from './components/Footer.vue';
 
 </script>
 <style lang="scss">
-$primary: rgba(249, 112, 104, 1);
+$primary: #f97068;
 $second: rgba(219, 228, 245, 1);
 $black: rgba(34, 35, 38, 1);
-$white: rgba(255, 236, 236, 1);
+$white: #ffecec;
 
 *,
 ::before,
@@ -30,10 +30,13 @@ $white: rgba(255, 236, 236, 1);
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: $white;
+  background-color:$white;
   box-sizing: content-box;
-  //padding: 10vh 0;
+
   overflow: hidden;
+
+  padding: 75px 0;
+
 }
 
 
@@ -51,7 +54,7 @@ button {
 
 
 nav {
-  padding: 30px;
+  padding: 50px;
 
   a {
     font-weight: bold;
