@@ -2,10 +2,16 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import { useStore } from 'vuex';
 const routes: Array<RouteRecordRaw> = [
+  //---------- HomePages and pages 
   {
     path: '/',
     name: 'app_home',
     component: () => import('../views/HomeView.vue')
+  },
+  {
+    path: '/assistance',
+    name: 'app_assistance',
+    component: () => import('../views/home/AssistanceView.vue')
   },
   {
     path: '/inscription',
