@@ -68,9 +68,6 @@
 import { ref } from 'vue'
 import { BsShieldLockFill, JaWrench, AnTwotoneExclamationCircle,CgProfile } from '@kalimahapps/vue-icons';
 
-
-/* Test accordeon */
-
     const items = ref([
   { title: 'Que faire si je ne peux pas me connecter ?', content: 'Vérifiez vos identifiants : Assurez-vous que votre e-mail et mot de passe sont corrects. Mot de passe oublié : Cliquez sur "Mot de passe oublié" pour le réinitialiser. Contactez-nous si le problème persiste à [email/support].' },
   { title: 'Comment puis-je signaler un utilisateur ?', content: 'Pour l\instant, cette fonctionnalité n\est pas implémentée ' },
@@ -88,14 +85,10 @@ const isOpen = (index) => {
   return openIndex.value === index;
 };
 
-/* Fin test accordeon */
-
 </script>
 
 <style scoped lang="scss">
 @import './../../style/variablecouleur.scss';
-
-
 
 .assistance{
     padding-top: 30px;
@@ -155,7 +148,6 @@ const isOpen = (index) => {
         .iconOpening{
             font-size: 1.5em;
             color: $primary;
-            
         }
     }
 }
