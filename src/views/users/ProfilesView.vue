@@ -188,7 +188,7 @@ const continuer = () => {
 
     console.log(localisation.value);
     fetchProfil();
-    fetchPerso();
+ 
 }
 
 const onFileChange = (event) => {
@@ -265,30 +265,9 @@ const suivant = () => {
     selectedQuestionIndex.value = "";
     QuestionIndex.value++;
     disa.value = false
+    console.log('siti',situation.value);
+    
    
-};
-
-
-const fetchPerso = async () => {
-    const data = {
-        hobby: like.value,
-        type_relationship: genreRecherche.value,
-        personality: descrip.value,
-        id_user:11
-      
-    };
-
-    try {
-        const response = await fetch('http://localhost:3000/api/personalizations/createPersonalization', {
-            method: 'POST',
-            body: data,
-            //image: formData
-        })
-
-    } catch (error) {
-        console.error('Erreur lors du fetch personnalisation :', error);
-    }
-
 };
 
 const fetchProfil = async () => {
@@ -297,12 +276,16 @@ const fetchProfil = async () => {
     console.log('fetch',description.value,localisation.value, genreRecherche.value);
 
     const formData = new FormData();
-    formData.append('image', fileInput.value.files[0]);
+    formData.append('children', nbenfant.value);
+    formData.append('situation', situation.value);
+    formData.append('personality', descrip.value);
+    formData.append('hobby', like.value);
     formData.append('description', description.value); // Ajoute d'autres données
     formData.append('localisation',localisation.value);
-    formData.append('gender', "t");
+    formData.append('image', fileInput.value.files[0]);
+
     formData.append('sexual_preference', genreRecherche.value);
-    formData.append('id_user',11);
+    formData.append('id_user',9);
     // user.value.id
 
 
