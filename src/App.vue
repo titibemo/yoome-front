@@ -9,6 +9,13 @@
 import Navbar from './components/navbar.vue';
 import Footer from './components/Footer.vue';
 
+import { useStore } from 'vuex';
+import { onMounted } from 'vue';
+
+const store = useStore();
+onMounted(() => {
+  store.dispatch('checkAuth');
+});
 
 </script>
 <style lang="scss">

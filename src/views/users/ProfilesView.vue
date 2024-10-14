@@ -7,6 +7,7 @@
 
         <div class="bodypage" v-if="QuestionIndex === 0">
             <p>1/6. Combien d’enfants avez-vous ? </p>
+           
             <div class="suggestion-item" v-for="(question, index) in question1" :key="index"
                 @click="add(question, index)" :class="{ selected: selectedQuestionIndex === index }">
                 {{ question }}
@@ -98,10 +99,10 @@
                     <option value="bordeaux">Bordeaux</option>
                 </select>
             </div>
-            <p class="nomInput2">GENRE RECHERCHER</p>
+            <p class="nomInput2">GENRE RECHERCHÉ</p>
             <div class="paddNone">
                 <FlFilledPeopleCommunity class="icon" />
-                <select name="sexe" id="" required>
+                <select name="sexe" id="" v-model="genreRecherche" required>
                     <option value=""></option>
                     <option value="homme">Homme</option>
                     <option value="femme">Femme</option>
@@ -109,11 +110,12 @@
             </div>
             <div class="textarea">
                 <MdDescription class="email" />
-                <textarea placeholder="Décrivez-vous ainsi que la personne de vos rêves." name="" id=""></textarea>
+                <textarea placeholder="Décrivez-vous ainsi que la personne de vos rêves." name="" v-model="description" id=""></textarea>
             </div>
+            <button type="submit" v-if="QuestionIndex === 5" @click="continuer" >continuer</button>
         </div>
-        <button type="submit" @click="suivant" :disabled="!disa">SUIVANT</button>
-
+        <button type="submit" @click="suivant" v-if="QuestionIndex <5" :disabled="!disa">SUIVANT</button>
+        
     </div>
 </template>
 
@@ -122,6 +124,9 @@ import router from '@/router';
 import { ref } from 'vue';
 import { FlFilledPeopleCommunity, MdDescription, AnOutlinedCheckCircle,MdOutlinedAddAPhoto } from '@kalimahapps/vue-icons';
 import { computed } from 'vue';
+import store from '@/store';
+
+const user = computed(() => store.state.user || {});
 
 const question1 = ["1", "2", "3", "4", "5 ET +"];
 const question2 = ["CÉLIBATAIRE", "SÉPARÉ/ÉE", "DIVORCÉ/ÉE", "VEUF/VEUVE"];
@@ -166,6 +171,8 @@ const situation = ref('');
 const descrip = ref([])
 const like = ref([])
 const localisation = ref('')
+const genreRecherche =ref('')
+const description = ref('')
 
 const selectedQuestionIndex = ref(null);
 const QuestionIndex = ref(0);
@@ -177,7 +184,12 @@ const getPercentage = () => {
     return (QuestionIndex.value / max.value) * 100;
 };
 
-const user = ref(computed(() => store.state.user));
+const continuer = () => {
+
+    console.log(localisation.value);
+    fetchProfil();
+    fetchPerso();
+}
 
 const onFileChange = (event) => {
     const file = event.target.files[0];
@@ -201,6 +213,8 @@ const add = (question, index) => {
 
     if (QuestionIndex.value === 0) {
         nbenfant.value = question; // Mettez à jour le nombre d'enfants
+        console.log(user.value.id);
+        
         disa.value = true
     }
     if (QuestionIndex.value === 1) {
@@ -243,66 +257,58 @@ const toggleSelection = (index, question) => {
 
 
 };
-
+const fileInput = ref(null)
 const suivant = () => {
+    if (QuestionIndex.value === 4 ){
+        fileInput.value = document.getElementById('image');
+       
+        
+    }
+    
+    
     selectedQuestionIndex.value = "";
     QuestionIndex.value++;
     disa.value = false
-    // fetchProfil() 
-
+   
 };
 
 
 const fetchPerso = async () => {
     const data = {
-        email: email.value,
-        firstname: firstname.value,
-        lastname: lastname.value,
-        birthdate: birthdate.value,
-        password: password.value
+        hobby: like.value,
+        type_relationship: genreRecherche.value,
+        personality: descrip.value,
+        id_user:11
+      
     };
 
     try {
-        const response = await fetch('http://localhost:3000/api/users/register', {
+        const response = await fetch('http://localhost:3000/api/personalizations/createPersonalization', {
             method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-            },
-        });
+            body: data,
+            //image: formData
+        })
 
-        if (!response.ok) {
-            alert("Erreur lors de l'inscription.");
-            return;
-        }
-
-        await response.json();
-        router.push('/connexion');
-    } catch (err) {
-        console.error('Error during register:', err);
+    } catch (error) {
+        console.error('Erreur lors de l\'upload :', error);
     }
+
 };
 
 const fetchProfil = async () => {
 
-    const fileInput = document.getElementById('image');
+    
+    console.log('fetch',description.value,localisation.value, genreRecherche.value);
 
     const formData = new FormData();
-    formData.append('image', fileInput.files[0]);
-    formData.append('description', descrip.value); // Ajoute d'autres données
-    formData.append('localisation',);
+    formData.append('image', fileInput.value.files[0]);
+    formData.append('description', description.value); // Ajoute d'autres données
+    formData.append('localisation',localisation.value);
     formData.append('gender', "t");
-    formData.append('sexual_preference', "t");
-    formData.append('id_user', 10);
+    formData.append('sexual_preference', genreRecherche.value);
+    formData.append('id_user',11);
 
-    const data = {
-        description: "t",
-        localisation: "t",
-        gender: "t",// Assurez-vous que l'image est en base64
-        sexual_preference: "t",
-        id_user: 10
-    };
+
 
     try {
         const response = await fetch('http://localhost:3000/api/profiles/createProfil', {

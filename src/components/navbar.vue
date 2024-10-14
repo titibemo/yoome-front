@@ -34,7 +34,7 @@ const isOpen = ref(true);
 
 const toggleBurgerMenu = () => {
     isOpen.value = !isOpen.value;
-    console.log(isOpen.value)
+   
 }
 
 
