@@ -28,6 +28,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'app_users_profil',
     component: () => import('../views/users/ProfilesView.vue'),
     meta: { requiresAuth: true , requiresAdmin: false},
+  },
+  {
+    path: '/abonnement',
+    name: 'app_users_abonnement',
+    component: () => import('../views/users/SubscriptionView.vue'),
   }
 ]
 const router = createRouter({
