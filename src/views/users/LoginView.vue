@@ -19,7 +19,7 @@
       <!--<input type="text" placeholder="email" name="email" v-model="email" />
       <input type="password" placeholder="password" v-model="password" />-->
       <button class="validate" type="submit" @click="login">SE CONNECTER</button> 
-      <p>Mot de passe oublié ? <router-link to="/inscription"></router-link></p>
+      <p>Mot de passe oublié ?<router-link to="/inscription"></router-link ></p>
     </form>
     
     <p class="marquee">
