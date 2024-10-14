@@ -155,13 +155,13 @@ const question4 = [
     "CINÉMA/SÉRIES TV",
     "MANGA",
     "LECTURE",
-    "SOIRÉES ENTRE AMIS",
     "SPORT",
     "JEUX VIDÉOS",
     "MUSIQUE",
     "VOYAGES",
     "ANIMAUX",
-
+    "SOIRÉES ENTRE AMIS",
+    
     "MUSÉE",
 ];
 
@@ -272,9 +272,6 @@ const suivant = () => {
 
 const fetchProfil = async () => {
 
-    
-    console.log('fetch',description.value,localisation.value, genreRecherche.value);
-
     const formData = new FormData();
     formData.append('children', nbenfant.value);
     formData.append('situation', situation.value);
@@ -283,21 +280,25 @@ const fetchProfil = async () => {
     formData.append('description', description.value); // Ajoute d'autres données
     formData.append('localisation',localisation.value);
     formData.append('image', fileInput.value.files[0]);
-
     formData.append('sexual_preference', genreRecherche.value);
-    formData.append('id_user',9);
+    formData.append('id_user',14);
     // user.value.id
-
 
     try {
         const response = await fetch('http://localhost:3000/api/profiles/createProfil', {
             method: 'POST',
             body: formData,
-            //image: formData
         })
 
+        if (!response.ok) {
+            alert("inscription du profil deja existant  ");
+            console.log(error);
+            
+            return;
+        }
+        router.push('/')
     } catch (error) {
-        console.error('Erreur lors de l\'upload :', error);
+        console.error('Erreur lors du fetch profil :', error);
     }
 
 };
