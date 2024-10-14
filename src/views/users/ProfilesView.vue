@@ -261,11 +261,7 @@ const fileInput = ref(null)
 const suivant = () => {
     if (QuestionIndex.value === 4 ){
         fileInput.value = document.getElementById('image');
-       
-        
     }
-    
-    
     selectedQuestionIndex.value = "";
     QuestionIndex.value++;
     disa.value = false
@@ -290,7 +286,7 @@ const fetchPerso = async () => {
         })
 
     } catch (error) {
-        console.error('Erreur lors de l\'upload :', error);
+        console.error('Erreur lors du fetch personnalisation :', error);
     }
 
 };
@@ -307,7 +303,7 @@ const fetchProfil = async () => {
     formData.append('gender', "t");
     formData.append('sexual_preference', genreRecherche.value);
     formData.append('id_user',11);
-
+    // user.value.id
 
 
     try {

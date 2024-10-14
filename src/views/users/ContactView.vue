@@ -2,7 +2,7 @@
     <div class="bodyRegister">
        
 
-        <form @submit.prevent class="bodypage" >
+        <form @submit.prevent="verify" class="bodypage" >
             <div>
                 <HeFilledUiUserProfile class="icon" />
                 <input type="text" placeholder="NOM" v-model="lastname" required />
@@ -11,35 +11,19 @@
                 <IcProfileCircle class="icon" />
                 <input type="text" placeholder="PRENOM" v-model="firstname" required />
             </div>
-
-            <p class="nomInput">GENRE</p>
-            <div class="paddNone">
-                <FlFilledPeopleCommunity class="icon" />
-                <select name="sexe" id="" v-model="genre" required>
-                    <option value=""></option>
-                    <option value="homme">Homme</option>
-                    <option value="femme">Femme</option>
-                </select>
-            </div>
-            <p class="nomInput2">DATE DE NAISSANCE</p>
-            <div class="paddNone">
-                <McBirthday2Fill class="icon" />
-                <input type="date" class="dateN" placeholder="Date de naissance" v-model="birthdate" max="2006-01-01"
-                    required />
-            </div>
             <div>
                 <CoBrandMailRu class="email" />
                 <input type="email" placeholder="EMAIL" v-model="email" required />
             </div>
             <div>
-                <CgKeyhole class="icon" />
-                <input type="password" placeholder="MOT DE PASS" v-model="password" required />
+                <BxPhone class="icon" />
+                <input type="tel" placeholder="TÉLÉPHONE"  v-model="telephone" pattern="[0-9]{10}" required />
             </div>
-            <div>
-                <CgKeyhole class="icon" />
-                <input type="password" placeholder="VALIDER MOT DE PASS" v-model="password2" required />
+            <div class="textarea">
+                <MdDescription class="email" />
+                <textarea placeholder="ENTRER VOTRE MESSAGE" name="" v-model="description" required id=""></textarea>
             </div>
-            <button type="submit" @click="verify">SUIVANT</button>
+            <button type="submit">ENVOYER VOTRE MESSAGE</button>
         </form>
 
     </div>
@@ -48,7 +32,7 @@
 <script setup>
 import router from '@/router';
 import { ref } from 'vue';
-import { HeFilledUiUserProfile, IcProfileCircle, FlFilledPeopleCommunity, McBirthday2Fill, CoBrandMailRu, CgKeyhole, MdDescription } from '@kalimahapps/vue-icons';
+import { HeFilledUiUserProfile, IcProfileCircle,BxPhone,  CoBrandMailRu, MdDescription } from '@kalimahapps/vue-icons';
 
 const email = ref('');
 const firstname = ref('');
@@ -61,48 +45,13 @@ const genre = ref('');
 
 
 const verify = () => {
-    console.log(genre.value);
-    
-    if (password.value.length && email.value.length && firstname.value.length && lastname.value.length && birthdate.value.length && password.value === password2.value) {
-        register();
        router.push('/profiles')
-    } else {
-        alert("Les mots de passe ne correspondent pas.");
-    }
+
 };
 
 
 
-const register = async () => {
-    const data = {
-        email: email.value,
-        firstname: firstname.value,
-        lastname: lastname.value,
-        birthdate: birthdate.value,
-        password: password.value
-    };
 
-    try {
-        const response = await fetch('http://localhost:3000/api/users/register', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            alert("Erreur lors de l'inscription.");
-            return;
-        }
-
-        await response.json();
-        router.push('/connexion');
-    } catch (err) {
-        console.error('Error during register:', err);
-    }
-};
 </script>
 
 <style lang="scss" scoped>
@@ -131,7 +80,7 @@ const register = async () => {
     align-items: center;
     background-color: $white;
 
-    
+   
 
     .bodypage {
         display: flex;

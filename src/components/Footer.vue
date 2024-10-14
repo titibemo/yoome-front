@@ -10,10 +10,10 @@
         </div>
 
         <div class="legals">
-            <p class="legal">Conditions d'utilisation</p>
-            <p class="legal">Politique de confidentialité</p>
-            <p class="legal">Politique relative aux cookies</p>
-            <p class="legal">Contactez-nous</p>
+            <p @click="cg" class="legal">Conditions d'utilisation</p>
+            <p @click="mentions" class="legal">Mentions légales</p>
+            <p @click="cookies" class="legal">Politique relative aux cookies</p>
+            <p @click="contact" class="legal">Contactez-nous</p>
         </div>
 
         <h3 class="titlePayment">Modes de paiemant acceptés</h3>
@@ -32,8 +32,22 @@
 </template>
 
 <script setup>
+import router from '@/router';
 
 
+const cg = () => {
+    router.push('/ConditionsGénérales')
+}
+
+const mentions = () => {
+    router.push('/MentionsLégals')
+}
+const cookies = () => {
+    router.push('/PolitiqueCookies')
+}
+const contact = () => {
+    router.push('/Contact')
+}
 </script>
 
 <style scoped lang="scss">
