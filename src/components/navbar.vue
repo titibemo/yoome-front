@@ -21,6 +21,7 @@
             <router-link @click="toggleBurgerMenu" to="/inscription">S'inscrire</router-link>
             <router-link @click="toggleBurgerMenu" to="/connexion">Connexion</router-link>
             <router-link @click="toggleBurgerMenu" to="/profiles">profiles</router-link>
+            <router-link @click="toggleBurgerMenu" to="/Decouvrirprofil">Decouvrir des profil</router-link>
         </div>
     </div>
 </template>
