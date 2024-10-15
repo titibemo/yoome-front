@@ -131,25 +131,7 @@ const register = async () => {
     align-items: center;
     background-color: $white;
 
-    .progressFull {
-        height: 2vh;
-        background-color: rgba(219, 228, 245, 1);
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        left: 0;
-        width: 100%;
-        top: 71px;
-        z-index: 5;
-
-        .progress {
-            z-index: 6;
-            height: 50%;
-            transition: 0.5s;
-            background-color: rgba(186, 203, 234, 1);
-        }
-    }
+    
 
     .bodypage {
         display: flex;
@@ -256,51 +238,9 @@ const register = async () => {
             border-radius: 20px;
         }
     }
-    .bodypage2 {
-        margin-top: 100px;
-        display:  flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        .characterTraits-container {
-            display: flex;
-            justify-content: space-between;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: center;
-           
-            width: 65%;
-
-            .characterTraits-item {
-                display: flex;
-                margin: 10px;
-                flex-direction: row;
-                align-items: center;
-                height: 50px;
-                border: 1px solid;
-                border-color: $primary;
-                border-radius: 999px;
-                text-align: center;
-                padding: 0 20px;
-                cursor: pointer;
-                input {
-                    width: 80vw;
-                    height: 40px;
-                    background-color: $white;
-                    border: 0;
-                    margin-right: 15px;
-                }
-        
-            
-                p {
-                    color: $primary;
-                    padding-left: 48%;
-                    padding-right: 50%;
-                }
-            }           
-        }
+    
 
         
-    }
+    
 }
 </style>

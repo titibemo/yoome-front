@@ -155,13 +155,13 @@ const question4 = [
     "CINÉMA/SÉRIES TV",
     "MANGA",
     "LECTURE",
-    "SOIRÉES ENTRE AMIS",
     "SPORT",
     "JEUX VIDÉOS",
     "MUSIQUE",
     "VOYAGES",
     "ANIMAUX",
-
+    "SOIRÉES ENTRE AMIS",
+    
     "MUSÉE",
 ];
 
@@ -188,7 +188,7 @@ const continuer = () => {
 
     console.log(localisation.value);
     fetchProfil();
-    fetchPerso();
+ 
 }
 
 const onFileChange = (event) => {
@@ -261,64 +261,44 @@ const fileInput = ref(null)
 const suivant = () => {
     if (QuestionIndex.value === 4 ){
         fileInput.value = document.getElementById('image');
-       
-        
     }
-    
-    
     selectedQuestionIndex.value = "";
     QuestionIndex.value++;
     disa.value = false
+    console.log('siti',situation.value);
+    
    
-};
-
-
-const fetchPerso = async () => {
-    const data = {
-        hobby: like.value,
-        type_relationship: genreRecherche.value,
-        personality: descrip.value,
-        id_user:11
-      
-    };
-
-    try {
-        const response = await fetch('http://localhost:3000/api/personalizations/createPersonalization', {
-            method: 'POST',
-            body: data,
-            //image: formData
-        })
-
-    } catch (error) {
-        console.error('Erreur lors de l\'upload :', error);
-    }
-
 };
 
 const fetchProfil = async () => {
 
-    
-    console.log('fetch',description.value,localisation.value, genreRecherche.value);
-
     const formData = new FormData();
-    formData.append('image', fileInput.value.files[0]);
+    formData.append('children', nbenfant.value);
+    formData.append('situation', situation.value);
+    formData.append('personality', descrip.value);
+    formData.append('hobby', like.value);
     formData.append('description', description.value); // Ajoute d'autres données
     formData.append('localisation',localisation.value);
-    formData.append('gender', "t");
+    formData.append('image', fileInput.value.files[0]);
     formData.append('sexual_preference', genreRecherche.value);
-    formData.append('id_user',11);
-
-
+    formData.append('id_user',14);
+    // user.value.id
 
     try {
         const response = await fetch('http://localhost:3000/api/profiles/createProfil', {
             method: 'POST',
             body: formData,
-            //image: formData
         })
 
+        if (!response.ok) {
+            alert("inscription du profil deja existant  ");
+            console.log(error);
+            
+            return;
+        }
+        router.push('/')
     } catch (error) {
-        console.error('Erreur lors de l\'upload :', error);
+        console.error('Erreur lors du fetch profil :', error);
     }
 
 };
