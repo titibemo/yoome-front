@@ -51,8 +51,9 @@
              -->
              <label class="file-upload">
                 <input type="file" id="image" name="image" accept="image/*" @change="onFileChange" />
-                <img v-if="imageUrl" :src="imageUrl" alt="Aperçu de votre photo" class="file-upload">
-                <MdOutlinedAddAPhoto class="uploadPicture"/>
+                <!-- <img v-if="imageUrl" :src="imageUrl" alt="Aperçu de votre photo" class="file-upload"> -->
+                <div v-if="imageUrl" :style="`background-image:url('${imageUrl}')`" class="file-upload"></div>
+                <MdOutlinedAddAPhoto v-if="!imageUrl" class="uploadPicture"/>
             </label>
             <div class="texticonimage">
 
@@ -267,6 +268,7 @@ const suivant = () => {
     disa.value = false
     console.log('siti',situation.value);
     
+
    
 };
 
@@ -281,7 +283,7 @@ const fetchProfil = async () => {
     formData.append('localisation',localisation.value);
     formData.append('image', fileInput.value.files[0]);
     formData.append('sexual_preference', genreRecherche.value);
-    formData.append('id_user',14);
+    formData.append('id_user',8);
     // user.value.id
 
     try {
@@ -354,13 +356,15 @@ button{
 }
 
 .file-upload {
-    width: 300px; 
-    height: 400px; 
+    width: 350px;
+    height: 400px;
     border: 1px solid rgba(249, 112, 104, 1);
     display: flex;
+    background-position: center;
+    background-size: cover;
     align-items: center;
     justify-content: center;
-    cursor: pointer; 
+    cursor: pointer;
     border-radius: 35px;
     margin: auto;
 }
