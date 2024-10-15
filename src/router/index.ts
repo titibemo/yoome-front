@@ -35,6 +35,10 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true , requiresAdmin: false},
   },
   {
+    path: '/abonnement',
+    name: 'app_users_abonnement',
+    component: () => import('../views/users/SubscriptionView.vue'),
+  },
     path: '/Decouvrirprofil',
     name: 'app_users_decouvrirprofil',
     component: () => import('../views/users/DecouvertProfilView.vue'),
