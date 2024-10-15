@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/concept',
-    name: 'app_users_login',
+    name: 'app_users_concept',
     component: () => import('../views/home/ConceptView.vue')
   },
   {

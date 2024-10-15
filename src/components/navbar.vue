@@ -93,7 +93,7 @@ const accueil = () =>{
         margin: 0;
         left: 0;
         right: 0;
-        top: 7vh;
+        top: 6vh;
         color:$second;
         gap: 20px;
         padding-bottom: 20px;
