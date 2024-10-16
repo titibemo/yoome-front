@@ -23,6 +23,7 @@
             <router-link @click="toggleBurgerMenu" to="/profiles">Création du profil</router-link>
             <router-link @click="toggleBurgerMenu" to="/monProfil">mon profil</router-link>
             <router-link @click="toggleBurgerMenu" to="/Decouvrirprofil">Decouvrir des profil</router-link>
+            <router-link @click="toggleBurgerMenu" to="/matchs">matchs</router-link>
         </div>
     </div>
 </template>

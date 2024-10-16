@@ -59,7 +59,7 @@ import { fr } from 'date-fns/locale';
 
 const router = useRouter();
 const user = computed(() => store.state.user || {});
-const url = "http://localhost:3000/uploads/";
+const url = "http://10.0.1.87:3000/uploads/";
 const idUser = user.value.id;
 const match = ref([]);
 const route = useRoute()
@@ -84,7 +84,7 @@ const options = {
     }
 };
 
-fetch(`http://localhost:3000/api/messages/listMessage/${id}`, options).then(handleFetch);
+fetch(`http://10.0.1.87:3000/api/messages/listMessage/${id}`, options).then(handleFetch);
 
 function handleFetch(response)
 {
@@ -123,7 +123,7 @@ function handleFetch(response)
     }
 };
 
-fetch(`http://localhost:3000/api/matchs/match?idUser=${idUser}&id=${id}`, optionsMatch).then(handleFetch2);
+fetch(`http://10.0.1.87:3000/api/matchs/match?idUser=${idUser}&id=${id}`, optionsMatch).then(handleFetch2);
 
 function handleFetch2(response)
 {
@@ -199,7 +199,7 @@ function handleFetch2(response)
   };
 
   try {
-    const response = await fetch('http://localhost:3000/api/messages/addMessage', {
+    const response = await fetch('http://10.0.1.87:3000/api/messages/addMessage', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {

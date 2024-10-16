@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="buttonRound" v-if="!sansUser" >
+        <div class="buttonRound" v-if="!sansUser">
             <div class="round2 icon" @click="suivantNo">
                 <AkXSmall class="icon" />
             </div>
@@ -44,12 +44,12 @@ const url = "http://10.0.1.87:3000/uploads/";
 const nbId = ref(0)
 const suivantYes = () => {
     if (!idLiked.value.includes(idUser.value)) {
-       
+
         fetchLikedID()
         fetchLikedShowID()
     }
-    fetchDecouverteProfil(); 
-     fetchLike(); 
+    fetchDecouverteProfil();
+    fetchLike();
 };
 const suivantNo = () => {
     fetchDecouverteProfil()
@@ -77,7 +77,7 @@ const fetchDecouverteProfil = async () => {
 
         if (profilsNonLiques.value.length === 0) {
             console.log("Tous les profils ont été likés !");
-            sansUser.value= true
+            sansUser.value = true
             return;
         }
 
@@ -85,7 +85,7 @@ const fetchDecouverteProfil = async () => {
         const profil = profilsNonLiques.value[nbId.value % profilsNonLiques.value.length];
         urlImage.value = profil.selfie;
         idUser.value = profil.id_user;
-        
+
         nbId.value = (nbId.value + 1) % profilsNonLiques.value.length;
 
 
@@ -208,13 +208,13 @@ const fetchLikedShowID = async () => {
         }
         const result = await response.json();
 
-        console.log('fetchid',result[0].id_liked);
-        
+        console.log('fetchid', result[0].id_liked);
+
 
         idLiked.value = result[0].id_liked
         console.log('iii', idLiked.value);
-        
-       
+
+
 
     } catch (error) {
         console.error('Erreur lors du fetch user profilview :', error);
@@ -233,11 +233,13 @@ const fetchLikedShowID = async () => {
     background-color: white;
 
 }
-.match{
+
+.match {
     text-align: center;
     color: whitesmoke;
     padding: 0;
 }
+
 h1 {
     font-weight: 300;
     padding: 10px;
@@ -262,7 +264,7 @@ h1 {
     align-content: center;
     border-radius: 99999%;
     background-color: $white;
-    
+
 
     img {
         height: 40%;
@@ -309,6 +311,7 @@ h2 {
     margin: auto;
 
 }
+
 .file-upload2 {
     width: 350px;
     height: 450px;
@@ -324,8 +327,9 @@ h2 {
     margin: auto;
     padding-top: 70px;
     margin-bottom: 80px;
-    img{
-        background-color: rgb(0, 0, 0,0.2);
+
+    img {
+        background-color: rgb(0, 0, 0, 0.2);
         padding-bottom: 20px;
         margin-bottom: 20px;
     }
@@ -337,7 +341,6 @@ h2 {
 }
 
 .uploadPicture {
-    width: 60px;
-    height: 60px;
+    width: 60px;  height: 60px;
 }
 </style>

@@ -18,7 +18,7 @@
         <h2>MESSAGES</h2>
         
         <div v-for="match in matchs">
-            <a :href="`http://localhost:8080/conversation/${match.channel}`">
+            <a :href="`http://10.0.1.87:8080/conversation/${match.channel}`">
                 <div>
                     <img class="selfie" :src="`${url}${match.selfie}`" alt="">
                     <div class="information">
@@ -43,7 +43,7 @@ import store from '@/store';
 
 const user = computed(() => store.state.user || {});
 const matchs = ref([]);
-const url = "http://localhost:3000/uploads/";
+const url = "http://10.0.1.87:3000/uploads/";
 const idUser = user.value.id
 
 
@@ -57,7 +57,7 @@ const options = {
     }
 };
 
-fetch(`http://localhost:3000/api/matchs/listMatch/${idUser}`, options).then(handleFetch);
+fetch(`http://10.0.1.87:3000/api/matchs/listMatch/${idUser}`, options).then(handleFetch);
 
 function handleFetch(response)
 {
@@ -91,7 +91,7 @@ const options = {
     }
 };
 
-fetch(`http://localhost:3000/api/matchs/listMatch/${id}`, options).then(handleFetch);
+fetch(`http://10.0.1.87:3000/api/matchs/listMatch/${id}`, options).then(handleFetch);
 
 function handleFetch(response)
 {

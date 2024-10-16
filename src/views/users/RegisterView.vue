@@ -33,11 +33,11 @@
             </div>
             <div>
                 <CgKeyhole class="icon" />
-                <input type="password" placeholder="MOT DE PASS" v-model="password" required />
+                <input type="password" placeholder="MOT DE PASSE" v-model="password" required />
             </div>
             <div>
                 <CgKeyhole class="icon" />
-                <input type="password" placeholder="VALIDER MOT DE PASS" v-model="password2" required />
+                <input type="password" placeholder="VALIDER MOT DE PASSE" v-model="password2" required />
             </div>
             <button type="submit" @click="verify">SUIVANT</button>
         </form>
