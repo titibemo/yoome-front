@@ -57,15 +57,27 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/PolitiqueCookies',
-      name: 'app_users_cookies',
-        component: () => import('../views/users/Cookies.vue')
-  }
-    ,
+
+    name: 'app_users_cookies',
+    component: () => import('../views/users/Cookies.vue')   
+  },
   {
     path: '/Contact',
-      name: 'app_users_contact',
-        component: () => import('../views/users/ContactView.vue')
-  }
+    name: 'app_users_contact',
+    component: () => import('../views/users/ContactView.vue')
+  },
+  //----- match et conversation
+  {
+    path: '/matchs',
+    name: 'app_users_matchs',
+    component: () => import('../views/users/MatchView.vue')
+  },
+  {
+    path: '/conversation/:id',
+    name: 'app_users_conversation',
+    component: () => import('../views/users/ConversationView.vue')
+  },
+
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
