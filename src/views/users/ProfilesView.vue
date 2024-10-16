@@ -187,7 +187,7 @@ const getPercentage = () => {
 
 const continuer = () => {
 
-    console.log(localisation.value);
+
     fetchProfil();
  
 }
@@ -214,7 +214,7 @@ const add = (question, index) => {
 
     if (QuestionIndex.value === 0) {
         nbenfant.value = question; // Mettez à jour le nombre d'enfants
-        console.log(user.value.id);
+
         
         disa.value = true
     }
@@ -249,7 +249,7 @@ const toggleSelection = (index, question) => {
         } else if (like.value.length < 3) {
             like.value.push(question);
 
-            console.log(like.value);
+
         }
         if (like.value.length >= 1) {
             disa.value = true
@@ -266,7 +266,7 @@ const suivant = () => {
     selectedQuestionIndex.value = "";
     QuestionIndex.value++;
     disa.value = false
-    console.log('siti',situation.value);
+ 
     
 
    
@@ -283,11 +283,11 @@ const fetchProfil = async () => {
     formData.append('localisation',localisation.value);
     formData.append('image', fileInput.value.files[0]);
     formData.append('sexual_preference', genreRecherche.value);
-    formData.append('id_user',8);
-    // user.value.id
+    formData.append('id_user',user.value.id);
+    
 
     try {
-        const response = await fetch('http://localhost:3000/api/profiles/createProfil', {
+        const response = await fetch('http://10.0.1.87:3000/api/profiles/createProfil', {
             method: 'POST',
             body: formData,
         })

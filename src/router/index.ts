@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-
 import { useStore } from 'vuex';
+
 const routes: Array<RouteRecordRaw> = [
   //---------- HomePages and pages 
   {
@@ -40,26 +40,31 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/users/SubscriptionView.vue'),
   },
   {
-  path: '/Decouvrirprofil',
-  name: 'app_users_decouvrirprofil',
-  component: () => import('../views/users/DecouvertProfilView.vue'),
-  meta: { requiresAuth: true, requiresAdmin: false },
+    path: '/monProfil',
+    name: 'app_users_monprofil',
+    component: () => import('../views/users/monProfilView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: false },
+  },
+  {
+    path: '/Decouvrirprofil',
+    name: 'app_users_decouvrirprofil',
+    component: () => import('../views/users/DecouvertProfilView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: false },
   },
   {
     path: '/ConditionsGénérales',
-      name: 'app_users_cg',
-        component: () => import('../views/users/CGView.vue')
+    name: 'app_users_cg',
+    component: () => import('../views/users/CGView.vue')
   },
   {
     path: '/MentionsLégals',
-      name: 'app_users_ml',
-        component: () => import('../views/users/Mentions.vue')
+    name: 'app_users_ml',
+    component: () => import('../views/users/Mentions.vue')
   },
   {
     path: '/PolitiqueCookies',
-
     name: 'app_users_cookies',
-    component: () => import('../views/users/Cookies.vue')   
+    component: () => import('../views/users/Cookies.vue')
   },
   {
     path: '/Contact',
@@ -77,13 +82,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'app_users_conversation',
     component: () => import('../views/users/ConversationView.vue')
   },
+];
 
-]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
-
+  routes,
+  scrollBehavior() {
+    // Always scroll to top
+    return { top: 0 };
+  }
+});
 
 router.beforeEach((to, from, next) => {
   const store = useStore();
@@ -105,4 +113,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router
+export default router;

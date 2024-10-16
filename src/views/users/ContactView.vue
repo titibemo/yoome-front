@@ -84,7 +84,7 @@ const verify = () => {
 
     .bodypage {
         display: flex;
-        margin-top: 100px;
+        margin-top: 50px;
         justify-content: center;
         flex-direction: column;
         align-items: center;
