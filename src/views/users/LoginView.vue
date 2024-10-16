@@ -74,7 +74,7 @@ const setTokenStore = (token) => {
   store.commit('setToken', token);
   store.commit('createToken', token);
 
-  router.push('/profiles');
+  router.push('/Decouvrirprofil')
 };
 
 
@@ -87,7 +87,7 @@ const login = async () => {
   };
 
   try {
-    const response = await fetch('http://localhost:3000/api/users/login', {
+    const response = await fetch('http://10.0.1.87:3000/api/users/login', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -104,7 +104,7 @@ const login = async () => {
     }
 
     const result = await response.json();
-    console.log(result);
+
     
     setTokenStore(result.token);
   } catch (err) {

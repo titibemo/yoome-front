@@ -61,7 +61,7 @@ const genre = ref('');
 
 
 const verify = () => {
-    console.log(genre.value);
+
     
     if (password.value.length && email.value.length && firstname.value.length && lastname.value.length && birthdate.value.length && password.value === password2.value) {
         register();
@@ -83,7 +83,7 @@ const register = async () => {
     };
 
     try {
-        const response = await fetch('http://localhost:3000/api/users/register', {
+        const response = await fetch('http://10.0.1.87:3000/api/users/register', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -135,7 +135,7 @@ const register = async () => {
 
     .bodypage {
         display: flex;
-        margin-top: 100px;
+        margin-top: 50px;
         justify-content: center;
         flex-direction: column;
         align-items: center;

@@ -192,13 +192,13 @@ header{
   position: absolute;
   color: white;
   width: 100%;
-  top: 82%
+  top: 88%
 
 }
 
 .marquee span {
   display: inline-block;
-  padding-left: 135%;
+  padding-left: 150%;
   animation: marquee 8s linear infinite;
 }
 
