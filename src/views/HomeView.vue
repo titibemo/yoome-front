@@ -144,6 +144,7 @@ header{
   background-repeat: no-repeat;
   background-position: center;
   height: 80vh;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -192,7 +193,7 @@ header{
   position: absolute;
   color: white;
   width: 100%;
-  top: 88%
+  bottom: 5px;
 
 }
 

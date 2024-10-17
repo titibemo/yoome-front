@@ -40,7 +40,7 @@ const nameImage = ref('')
 const idUser = ref(0)
 const idLiked = ref([])
 const urlImage = ref('')
-const url = "http://10.0.1.87:3000/uploads/";
+const url = `${process.env.VUE_APP_IP_ADDRESS}/uploads/`;
 const nbId = ref(0)
 const suivantYes = () => {
     if (!idLiked.value.includes(idUser.value)) {
@@ -61,7 +61,7 @@ onMounted(() => {
 const profilsNonLiques = ref([]);
 const fetchDecouverteProfil = async () => {
     try {
-        const response = await fetch('http://10.0.1.87:3000/api/profiles/showProfil', {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/profiles/showProfil`, {
             method: 'GET',
         });
 
@@ -116,7 +116,7 @@ const fetchUser = async () => {
 
 
     try {
-        const response = await fetch(`http://10.0.1.87:3000/api/users/listUser/${idUser.value}`, {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/users/listUser/${idUser.value}`, {
             method: 'post',
 
         })
@@ -146,7 +146,7 @@ const fetchLike = async () => {
     };
 
     try {
-        const response = await fetch('http://10.0.1.87:3000/api/likes/addLikes', {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/likes/addLikes`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -171,7 +171,7 @@ const fetchLikedID = async () => {
     };
 
     try {
-        const response = await fetch('http://10.0.1.87:3000/api/profiles/modifyProfil', {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/profiles/modifyProfil`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -195,7 +195,7 @@ const fetchLikedID = async () => {
 
 const fetchLikedShowID = async () => {
     try {
-        const response = await fetch(`http://10.0.1.87:3000/api/users/listUser/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/users/listUser/${user.value.id}`, {
             method: 'post',
 
         })
