@@ -73,6 +73,20 @@ const comeBack = () =>{
   router.push('/matchs')
 }
 
+//-------------------------go to the end of the page
+
+// onMounted(() => {
+//       setTimeout(() => {
+//         window.scrollTo(0, document.body.scrollHeight);
+//       }, 300); 
+//     });
+
+function goToTheEnd(){
+  setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 50);
+}
+
 
 
 //---------------------------------------------------- retreive message
@@ -93,23 +107,25 @@ function handleFetch(response)
     {
       response.json()
         .then(data=>{
-            console.log("message", data);
+          console.log("message", data);
+          
+          data.forEach(allMessage => {
+            messages.value.push({
+              message: allMessage.message,
+              hour: format(parseISO(allMessage.created_at), 'HH:mm', { locale: fr }),
+              user: allMessage.id_user
+            })            
+            
+          });
 
-            data.forEach(allMessage => {
-              messages.value.push({
-                message: allMessage.message,
-                hour: format(parseISO(allMessage.created_at), 'HH:mm', { locale: fr }),
-                user: allMessage.id_user
-              })            
-              
-            });
+          goToTheEnd()
     
         })
         .catch(error=>console.error(error));
     }
     else
     {
-        console.error(response.statusText);
+      console.error(response.statusText);
     }
   }
 
@@ -392,6 +408,7 @@ function handleFetch2(response)
   }
   .messages-container{
     background-color: white;
+    min-height: 550px;
   }
   
   .right-bubble{
