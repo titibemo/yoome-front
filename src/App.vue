@@ -17,6 +17,9 @@ onMounted(() => {
   store.dispatch('checkAuth');
 });
 
+const ipAddress = process.env.VUE_APP_IP_ADDRESS;
+console.log(ipAddress);
+
 </script>
 <style lang="scss">
 $primary: #f97068;

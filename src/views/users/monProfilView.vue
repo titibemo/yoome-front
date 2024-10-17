@@ -62,7 +62,7 @@ const personality = ref([])
 const hobby = ref([])
 const description = ref('')
 const urlImage = ref('')
-const url = "http://10.0.1.87:3000/uploads/";
+const url = `${process.env.VUE_APP_IP_ADDRESS}/uploads/`;
 const user = computed(() => store.state.user || {});
 onMounted(() => {
 
@@ -72,7 +72,7 @@ onMounted(() => {
 
 const fetchDecouverteProfil = async () => {
     try {
-        const response = await fetch(`http://10.0.1.87:3000/api/profiles/showProfil/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/profiles/showProfil/${user.value.id}`, {
             method: 'get',
 
         })
@@ -122,7 +122,7 @@ const fetchUser = async () => {
 
 
     try {
-        const response = await fetch(`http://10.0.1.87:3000/api/users/listUser/${user.value.id}`, {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/users/listUser/${user.value.id}`, {
             method: 'post',
 
         })

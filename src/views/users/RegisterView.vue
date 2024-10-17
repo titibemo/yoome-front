@@ -83,7 +83,7 @@ const register = async () => {
     };
 
     try {
-        const response = await fetch('http://10.0.1.87:3000/api/users/register', {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/users/register`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

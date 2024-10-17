@@ -18,7 +18,7 @@
         <h2>MESSAGES</h2>
         
         <div v-for="match in matchs">
-            <a :href="`http://10.0.1.87:8080/conversation/${match.channel}`">
+            <a :href="`${ipAddressFront}/conversation/${match.channel}`">
                 <div>
                     <img class="selfie" :src="`${url}${match.selfie}`" alt="">
                     <div class="information">
@@ -43,8 +43,14 @@ import store from '@/store';
 
 const user = computed(() => store.state.user || {});
 const matchs = ref([]);
-const url = "http://10.0.1.87:3000/uploads/";
+const url = `${process.env.VUE_APP_IP_ADDRESS}/uploads/`;
+const ipAddressFront = process.env.VUE_APP_IP_FRONT
 const idUser = user.value.id
+
+
+
+console.log("a", process.env.VUE_APP_IP_ADDRESS);
+
 
 
 
@@ -57,7 +63,7 @@ const options = {
     }
 };
 
-fetch(`http://10.0.1.87:3000/api/matchs/listMatch/${idUser}`, options).then(handleFetch);
+fetch(`http://10.0.0.170:3000/api/matchs/listMatch/${idUser}`, options).then(handleFetch);
 
 function handleFetch(response)
 {

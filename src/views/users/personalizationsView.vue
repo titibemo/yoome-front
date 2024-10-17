@@ -113,7 +113,7 @@ const fetchProfil = async () => {
     };
 
     try {
-        const response = await fetch('http://10.0.1.87:3000/api/profiles/createProfil', {
+        const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/profiles/createProfil`, {
             method: 'POST',
             body: formData,
             //image: formData

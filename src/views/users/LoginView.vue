@@ -68,6 +68,8 @@ const email = ref('');
 const password = ref('');
 
 
+
+
 const setTokenStore = (token) => {
   const user = JSON.parse(atob(token.split('.')[1]));
   store.commit('setUser', user);
@@ -87,7 +89,7 @@ const login = async () => {
   };
 
   try {
-    const response = await fetch('http://10.0.1.87:3000/api/users/login', {
+    const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/users/login`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -122,6 +124,7 @@ header{
   background-repeat: no-repeat;
   background-position: center;
   height: 80vh;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -184,7 +187,7 @@ header{
   position: absolute;
   color: white;
   width: 100%;
-  top: 85%
+  bottom: 5px;
 
 }
 

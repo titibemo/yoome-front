@@ -59,7 +59,7 @@ import { fr } from 'date-fns/locale';
 
 const router = useRouter();
 const user = computed(() => store.state.user || {});
-const url = "http://10.0.1.87:3000/uploads/";
+const url = `${process.env.VUE_APP_IP_ADDRESS}/uploads/`;
 const idUser = user.value.id;
 const match = ref([]);
 const route = useRoute()
@@ -84,7 +84,7 @@ const options = {
     }
 };
 
-fetch(`http://10.0.1.87:3000/api/messages/listMessage/${id}`, options).then(handleFetch);
+fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/messages/listMessage/${id}`, options).then(handleFetch);
 
 function handleFetch(response)
 {
@@ -123,7 +123,7 @@ function handleFetch(response)
     }
 };
 
-fetch(`http://10.0.1.87:3000/api/matchs/match?idUser=${idUser}&id=${id}`, optionsMatch).then(handleFetch2);
+fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/matchs/match?idUser=${idUser}&id=${id}`, optionsMatch).then(handleFetch2);
 
 function handleFetch2(response)
 {
@@ -174,13 +174,14 @@ function handleFetch2(response)
   const username = ref(null)
   const text = ref(null)
   const messages = ref([])
-  const socket = new WebSocket('ws://localhost:3000')
+  const socket = new WebSocket(`ws://${process.env.VUE_APP_WEB_SOCKET}`)
 
   //sendMessage
   const sendMessage = async () => {
 
     const date = new Date();
     let sendingTime = null;
+    let sendingTimeChat = null;
     
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1);
@@ -190,6 +191,7 @@ function handleFetch2(response)
     const second = String(date.getSeconds());
 
     sendingTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`
+    sendingTimeChat = `${minute}:${second}`;
 
     const data = {
     message: text.value,
@@ -199,7 +201,7 @@ function handleFetch2(response)
   };
 
   try {
-    const response = await fetch('http://10.0.1.87:3000/api/messages/addMessage', {
+    const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/messages/addMessage`, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -222,7 +224,7 @@ function handleFetch2(response)
   }
     //TODO username et IDUSER
    
-      const messageData = { username: idUser, message: text.value, hour: sendingTime};
+      const messageData = { user: idUser, message: text.value, hour: sendingTimeChat};
       // Send the message data to the server using WebSockets
       socket.send(JSON.stringify(messageData))
       // Add the message data to the messages array
