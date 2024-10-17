@@ -4,7 +4,7 @@
 
     <section class="matches">
         <div v-for="match in matchs">
-            <a href="">
+            <a :href="`${ipAddressFront}/conversation/${match.channel}`">
                 <div>
                     <img :src="`${url}${match.selfie}`" alt="selfie">
                     <p>{{match.firstname}}</p>

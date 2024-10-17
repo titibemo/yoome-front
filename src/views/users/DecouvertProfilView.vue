@@ -2,7 +2,7 @@
 
     <section class="matches">
         <div v-for="match in matchs">
-            <a href="">
+            <a :href="`${ipAddressFront}/conversation/${match.channel}`">
                 <div>
                     <img :src="`${url}${match.selfie}`" alt="selfie">
                     <p>{{ match.firstname }}</p>
@@ -51,12 +51,15 @@ import { computed, onMounted, ref } from 'vue';
 import { AkXSmall } from '@kalimahapps/vue-icons';
 import store from '@/store';
 const sansUser = ref(false)
+const matchs = ref([]);
 const user = computed(() => store.state.user || {});
 const age = ref(null)
 const nameImage = ref('')
 const idUser = ref(0)
 const idLiked = ref([])
+const ipAddressFront = process.env.VUE_APP_IP_FRONT
 const urlImage = ref('')
+
 const url = `${process.env.VUE_APP_IP_ADDRESS}/uploads/`;
 const nbId = ref(0)
 const idButton = ref(0)
@@ -98,6 +101,42 @@ onMounted(() => {
     fetchLikedShowID()
     fetchDecouverteProfil()
 });
+
+
+const options = {
+    method: 'GET',
+    headers: {
+        accept: 'application/json',
+    }
+};
+
+fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/matchs/listMatch/${user.value.id}`, options).then(handleFetch);
+
+function handleFetch(response)
+{
+  if(response.ok)
+    {
+      response.json()
+        .then(data=>{
+            console.log("data",data);
+            
+            data.forEach(listMatch => {
+                matchs.value.push({
+                    firstname: listMatch.firstname,
+                    selfie: listMatch.selfie,
+                    channel: listMatch.id_channel,
+                })                
+            });
+        })
+        .catch(error=>console.error(error));
+    }
+    else
+    {
+        console.error(response.statusText);
+    }
+  }
+
+
 const profilsNonLiques = ref([]);
 const fetchDecouverteProfil = async () => {
     try {

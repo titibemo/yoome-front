@@ -44,7 +44,7 @@ const toggleBurgerMenu = () => {
 
 
 const accueil = () =>{
-    router.push('/')
+    router.push('/Decouvrirprofil')
 }
 
 </script>
