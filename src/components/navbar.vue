@@ -3,7 +3,7 @@
         <div class="logo" @click="accueil">
             <img src="./../../public/Fichier_3-8.png" alt="">
         </div>
-        <div @click="toggleBurgerMenu" class="burgerButton">
+        <div @click="toggleBurgerMenu" class="burgerButton" v-if="user.id">
             <svg width="40px" height="48px" viewBox="0 0 24 24"  fill="#000000" color
                 xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -16,24 +16,26 @@
             </svg>
         </div>
      
-        <div :class="isOpen ? 'menu closed' : 'menu open'">
-            <router-link @click="toggleBurgerMenu" to="/">Home</router-link> 
-            <router-link @click="toggleBurgerMenu" to="/inscription">S'inscrire</router-link>
-            <router-link @click="toggleBurgerMenu" to="/connexion">Connexion</router-link>
-            <router-link @click="toggleBurgerMenu" to="/profiles">Création du profil</router-link>
-            <router-link @click="toggleBurgerMenu" to="/monProfil">mon profil</router-link>
+        <div :class="isOpen ? 'menu closed' : 'menu open' " >
+            <router-link @click="toggleBurgerMenu" to="/monProfil">Mon profil</router-link>
             <router-link @click="toggleBurgerMenu" to="/Decouvrirprofil">Decouvrir des profil</router-link>
             <router-link @click="toggleBurgerMenu" to="/matchs">matchs</router-link>
+            <router-link @click="deco" to="/">Deconnexion</router-link>
         </div>
     </div>
 </template>
 
 <script setup>
 import router from '@/router';
-import { ref } from 'vue';
-
-
+import { computed, ref } from 'vue';
+import store from '@/store';
+const user = computed(() => store.state.user || {});
 const isOpen = ref(true);
+
+const deco = () =>{
+    store.dispatch('logout');
+    toggleBurgerMenu()
+}
 
 const toggleBurgerMenu = () => {
     isOpen.value = !isOpen.value;

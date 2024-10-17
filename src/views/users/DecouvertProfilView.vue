@@ -1,4 +1,17 @@
 <template>
+
+    <section class="matches">
+        <div v-for="match in matchs">
+            <a href="">
+                <div>
+                    <img :src="`${url}${match.selfie}`" alt="selfie">
+                    <p>{{ match.firstname }}</p>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
     <div class="container">
         <h2>Découvrez des profils</h2>
         <label class="file-upload" v-if="!sansUser">
@@ -20,8 +33,12 @@
             <div class="round2 icon" @click="suivantNo">
                 <AkXSmall class="icon" />
             </div>
-            <div class="round" @click="suivantYes"> <img class="icon" src="./../../assets/pictures/home/logo-m.png"
-                    alt=""></div>
+            <div v-if="idButton == 0" class="round" @click="suivantYes"> <img class="icon"
+                    src="./../../assets/pictures/home/logo-m.png" alt="">
+            </div>
+            <div v-if="idButton == 1" class="round" @click="suivantYes"> 2 </div>
+            <div v-if="idButton == 2" class="round" @click="suivantYes"> 1 </div>
+
         </div>
     </div>
 
@@ -42,15 +59,38 @@ const idLiked = ref([])
 const urlImage = ref('')
 const url = "http://10.0.1.87:3000/uploads/";
 const nbId = ref(0)
-const suivantYes = () => {
-    if (!idLiked.value.includes(idUser.value)) {
+const idButton = ref(0)
 
-        fetchLikedID()
-        fetchLikedShowID()
+let isClickable = true
+const suivantYes = () => {
+    if (!isClickable) return;
+
+
+    if (!idLiked.value.includes(idUser.value)) {
+        fetchLikedID();
+        fetchLikedShowID();
     }
+
     fetchDecouverteProfil();
     fetchLike();
+
+    // Réactive le bouton après 3 secondes
+    isClickable = false;
+
+
+    const intervalId = setInterval(() => {
+        if (idButton.value < 2) {
+            idButton.value++;
+        } else {
+            idButton.value = 0;
+            isClickable = true;
+            // Si idButton.value est 0, on sort du setInterval
+            clearInterval(intervalId);
+        }
+    }, 1000);
 };
+
+
 const suivantNo = () => {
     fetchDecouverteProfil()
 }
@@ -89,7 +129,7 @@ const fetchDecouverteProfil = async () => {
         nbId.value = (nbId.value + 1) % profilsNonLiques.value.length;
 
 
-        console.log(result);
+
 
         fetchUser();
 
@@ -155,9 +195,9 @@ const fetchLike = async () => {
             },
         });
 
-
-
         await response.json();
+
+
 
     } catch (err) {
         console.error('Error during fetch like:', err);
@@ -208,11 +248,11 @@ const fetchLikedShowID = async () => {
         }
         const result = await response.json();
 
-        console.log('fetchid', result[0].id_liked);
+
 
 
         idLiked.value = result[0].id_liked
-        console.log('iii', idLiked.value);
+
 
 
 
@@ -234,11 +274,42 @@ const fetchLikedShowID = async () => {
 
 }
 
-.match {
-    text-align: center;
-    color: whitesmoke;
-    padding: 0;
+.matches {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    background-color: #FCE2E2;
+
+    a {
+        text-decoration: none;
+        color: black;
+
+        div {
+            margin: 0 5px 0 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                display: flex;
+                justify-content: center;
+                border: 1px solid $primary;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            p {
+                font-size: 0.8em;
+            }
+        }
+
+        div:nth-of-type(1) {
+            margin-left: 15px;
+        }
+    }
 }
+
 
 h1 {
     font-weight: 300;
@@ -341,6 +412,7 @@ h2 {
 }
 
 .uploadPicture {
-    width: 60px;  height: 60px;
+    width: 60px;
+    height: 60px;
 }
 </style>
