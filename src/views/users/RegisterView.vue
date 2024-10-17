@@ -48,6 +48,7 @@
 <script setup>
 import router from '@/router';
 import { ref } from 'vue';
+import store from '@/store';
 import { HeFilledUiUserProfile, IcProfileCircle, FlFilledPeopleCommunity, McBirthday2Fill, CoBrandMailRu, CgKeyhole, MdDescription } from '@kalimahapps/vue-icons';
 
 const email = ref('');
@@ -98,10 +99,52 @@ const register = async () => {
         }
 
         await response.json();
-        router.push('/connexion');
+        login()
+       
     } catch (err) {
         console.error('Error during register:', err);
     }
+};
+const setTokenStore = (token) => {
+  const user = JSON.parse(atob(token.split('.')[1]));
+  store.commit('setUser', user);
+  store.commit('setToken', token);
+  store.commit('createToken', token);
+
+  router.push('/profiles')
+};
+
+const login = async () => {
+  const data = {
+    email: email.value,
+    password: password.value,
+    
+  };
+
+  try {
+    const response = await fetch('http://10.0.1.87:3000/api/users/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    
+    if (!response.ok) {
+      console.log("ERREUR");
+      alert("utilisateur inconnu ou mot de passe incorrect");
+      return;
+    }
+
+    const result = await response.json();
+
+    
+    setTokenStore(result.token);
+  } catch (err) {
+    console.error('Error during login:', err);
+  }
 };
 </script>
 
