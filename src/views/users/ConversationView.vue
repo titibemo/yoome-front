@@ -232,6 +232,8 @@ function handleFetch2(response)
       messages.value.push(messageData)
       // Clear the text input
       text.value = null;
+
+      scrollEveryMessage();
 }
   
 
@@ -270,7 +272,11 @@ const scrollToEnd = () => {
   if (article.value) {
     setTimeout(() => {
       const { offsetTop, clientHeight } = article.value;
-      const end = offsetTop + clientHeight *0.9;
+      console.log('cx', clientHeight);
+      
+      const end = offsetTop + clientHeight - (500);
+      console.log('end', end);
+      
       window.scrollTo({ top: end});
     }, 100); 
   }
@@ -286,15 +292,12 @@ const scrollEveryMessage = () => {
   }
 };
 
-// Utilisation de onMounted pour le défilement automatique
+
 onMounted(() => {
   scrollToEnd();
 });
 
-watch(messages.value, async () => { 
-  await scrollEveryMessage();
-});
-  
+
 
 
 </script>
