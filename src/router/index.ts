@@ -52,6 +52,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true, requiresAdmin: false },
   },
   {
+    path: '/ModiferProfil',
+    name: 'app_users_modifierprofil',
+    component: () => import('../views/users/modifierUserProfil.vue'),
+    meta: { requiresAuth: true, requiresAdmin: false },
+  },
+  {
     path: '/ConditionsGénérales',
     name: 'app_users_cg',
     component: () => import('../views/users/CGView.vue')

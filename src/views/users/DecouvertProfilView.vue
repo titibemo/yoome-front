@@ -14,12 +14,12 @@
 
     <div class="container">
         <h2>Découvrez des profils</h2>
-        <label class="file-upload" v-if="!sansUser">
+        <label class="file-upload" v-if="!sansUser" @click="opendesription">
 
             <div :style="`background-image:url('${url}${urlImage}')`" class="file-upload"></div>
             <h1 class="textImage">{{ nameImage }}, {{ age }} ans </h1>
 
-
+            <div v-if="!open" class="description"> {{ description }} </div>
 
         </label>
         <div v-else>
@@ -36,8 +36,8 @@
             <div v-if="idButton == 0" class="round" @click="suivantYes"> <img class="icon"
                     src="./../../assets/pictures/home/logo-m.png" alt="">
             </div>
-            <div v-if="idButton == 1" class="round" @click="suivantYes"> 2 </div>
-            <div v-if="idButton == 2" class="round" @click="suivantYes"> 1 </div>
+            <div v-if="idButton == 1" class="round chiffre" @click="suivantYes"> 2 </div>
+            <div v-if="idButton == 2" class="round chiffre" @click="suivantYes"> 1 </div>
 
         </div>
     </div>
@@ -63,11 +63,18 @@ const urlImage = ref('')
 const url = `${process.env.VUE_APP_IP_ADDRESS}/uploads/`;
 const nbId = ref(0)
 const idButton = ref(0)
+const description = ref('')
+const open = ref(true)
+
+const opendesription = () => {
+    open.value = !open.value
+
+}
 
 let isClickable = true
 const suivantYes = () => {
     if (!isClickable) return;
-
+    open.value = true
 
     if (!idLiked.value.includes(idUser.value)) {
         fetchLikedID();
@@ -77,9 +84,9 @@ const suivantYes = () => {
     fetchDecouverteProfil();
     fetchLike();
 
-    // Réactive le bouton après 3 secondes
+ 
     isClickable = false;
-
+    navconv()
 
     const intervalId = setInterval(() => {
         if (idButton.value < 2) {
@@ -87,7 +94,7 @@ const suivantYes = () => {
         } else {
             idButton.value = 0;
             isClickable = true;
-            // Si idButton.value est 0, on sort du setInterval
+           
             clearInterval(intervalId);
         }
     }, 1000);
@@ -96,45 +103,47 @@ const suivantYes = () => {
 
 const suivantNo = () => {
     fetchDecouverteProfil()
+    open.value = true
 }
 onMounted(() => {
     fetchLikedShowID()
     fetchDecouverteProfil()
+    navconv()
 });
 
+const navconv = async () => {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+        }
+    };
 
-const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-    }
-};
+    fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/matchs/listMatch/${user.value.id}`, options).then(handleFetch);
 
-fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/matchs/listMatch/${user.value.id}`, options).then(handleFetch);
+    function handleFetch(response) {
+        if (response.ok) {
+            response.json()
+                .then(data => {
 
-function handleFetch(response)
-{
-  if(response.ok)
-    {
-      response.json()
-        .then(data=>{
-            console.log("data",data);
-            
-            data.forEach(listMatch => {
-                matchs.value.push({
-                    firstname: listMatch.firstname,
-                    selfie: listMatch.selfie,
-                    channel: listMatch.id_channel,
-                })                
-            });
-        })
-        .catch(error=>console.error(error));
+
+                    data.forEach(listMatch => {
+                        matchs.value.push({
+                            firstname: listMatch.firstname,
+                            selfie: listMatch.selfie,
+                            channel: listMatch.id_channel,
+                        })
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+        else {
+            console.error(response.statusText);
+        }
     }
-    else
-    {
-        console.error(response.statusText);
-    }
-  }
+}
+
+
 
 
 const profilsNonLiques = ref([]);
@@ -164,7 +173,7 @@ const fetchDecouverteProfil = async () => {
         const profil = profilsNonLiques.value[nbId.value % profilsNonLiques.value.length];
         urlImage.value = profil.selfie;
         idUser.value = profil.id_user;
-
+        description.value = profil.description
         nbId.value = (nbId.value + 1) % profilsNonLiques.value.length;
 
 
@@ -310,6 +319,17 @@ const fetchLikedShowID = async () => {
     flex-direction: column;
     align-items: center;
     background-color: white;
+
+}
+
+.description {
+    padding: 5px 10px;
+    color: white;
+}
+
+.chiffre {
+    font-size: xx-large;
+    opacity: 0.5;
 
 }
 
