@@ -23,7 +23,7 @@
   <div class="chat-container">
 
       <div class="chat-window">
-        <div class="messages-container">
+        <div class="messages-container" ref="article">
           
             <div v-for="(val, index) in messages" :key="index" :class="[val.user === idUser ? 'right-bubble' : 'left-bubble']">
                <p class="message">
@@ -49,7 +49,7 @@
 
 import { useRouter } from 'vue-router';
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router'
 import { BsArrowUpCircleFill, BsArrowLeftShort } from '@kalimahapps/vue-icons';
 import store from '@/store';
@@ -67,24 +67,11 @@ const id = route.params.id
 
 console.log("idUser", idUser);
 
+
 //-----------------------Return to matches
 
 const comeBack = () =>{
   router.push('/matchs')
-}
-
-//-------------------------go to the end of the page
-
-// onMounted(() => {
-//       setTimeout(() => {
-//         window.scrollTo(0, document.body.scrollHeight);
-//       }, 300); 
-//     });
-
-function goToTheEnd(){
-  setTimeout(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 50);
 }
 
 
@@ -107,25 +94,23 @@ function handleFetch(response)
     {
       response.json()
         .then(data=>{
-          console.log("message", data);
-          
-          data.forEach(allMessage => {
-            messages.value.push({
-              message: allMessage.message,
-              hour: format(parseISO(allMessage.created_at), 'HH:mm', { locale: fr }),
-              user: allMessage.id_user
-            })            
-            
-          });
+            console.log("message", data);
 
-          goToTheEnd()
+            data.forEach(allMessage => {
+              messages.value.push({
+                message: allMessage.message,
+                hour: format(parseISO(allMessage.created_at), 'HH:mm', { locale: fr }),
+                user: allMessage.id_user
+              })            
+              
+            });
     
         })
         .catch(error=>console.error(error));
     }
     else
     {
-      console.error(response.statusText);
+        console.error(response.statusText);
     }
   }
 
@@ -259,6 +244,56 @@ function handleFetch2(response)
   }
 
 
+
+
+
+  //------------------------------- SCROLL
+
+  //------------------ go to the end + automatic scroll
+
+
+const article = ref(null);
+
+// onMounted(() => {
+//       setTimeout(() => {
+//         window.scrollTo(0, document.body.scrollHeight);
+//       }, 300); 
+//     });
+
+// function goToTheEnd(){
+//   setTimeout(() => {
+//     window.scrollTo(0, document.body.scrollHeight);
+//   }, 50);
+// }
+
+const scrollToEnd = () => {
+  if (article.value) {
+    setTimeout(() => {
+      const { offsetTop, clientHeight } = article.value;
+      const end = offsetTop + clientHeight *0.9;
+      window.scrollTo({ top: end});
+    }, 100); 
+  }
+};
+
+const scrollEveryMessage = () => {
+  if (article.value) {
+    setTimeout(() => {
+      const { offsetTop, clientHeight } = article.value;
+      const end = offsetTop + clientHeight;
+      window.scrollTo({ top: end, behavior: 'smooth'});
+    }, 100); 
+  }
+};
+
+// Utilisation de onMounted pour le défilement automatique
+onMounted(() => {
+  scrollToEnd();
+});
+
+watch(messages.value, async () => { 
+  await scrollEveryMessage();
+});
   
 
 
@@ -408,7 +443,6 @@ function handleFetch2(response)
   }
   .messages-container{
     background-color: white;
-    min-height: 550px;
   }
   
   .right-bubble{
