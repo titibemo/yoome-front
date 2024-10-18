@@ -20,6 +20,8 @@
             <router-link @click="toggleBurgerMenu" to="/monProfil">Mon profil</router-link>
             <router-link @click="toggleBurgerMenu" to="/Decouvrirprofil">Decouvrir des profil</router-link>
             <router-link @click="toggleBurgerMenu" to="/matchs">matchs</router-link>
+            <router-link @click="toggleBurgerMenu" to="/concept">concept</router-link>
+            <router-link @click="toggleBurgerMenu" to="/abonnement">abonnement</router-link>
             <router-link @click="deco" to="/">Deconnexion</router-link>
         </div>
     </div>
@@ -44,7 +46,7 @@ const toggleBurgerMenu = () => {
 
 
 const accueil = () =>{
-    router.push('/')
+    router.push('/Decouvrirprofil')
 }
 
 </script>

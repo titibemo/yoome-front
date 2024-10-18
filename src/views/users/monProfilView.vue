@@ -28,7 +28,7 @@
             </div>
 
         </div>
-        <div class="round2 icon" @click="suivantNo">
+        <div class="round2 icon"  @click="modifierProfil">
             <AkPencil class="icon" />
         </div>
     </label>
@@ -54,6 +54,7 @@
 import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
 import { AkPencil } from '@kalimahapps/vue-icons';
+import router from '@/router';
 const cityUser = ref('')
 const nameUser = ref('')
 const age = ref(null)
@@ -69,6 +70,9 @@ onMounted(() => {
     fetchDecouverteProfil()
 });
 
+const modifierProfil = () => {
+    router.push('/ModiferProfil')
+}
 
 const fetchDecouverteProfil = async () => {
     try {

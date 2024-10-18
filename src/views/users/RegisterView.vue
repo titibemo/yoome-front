@@ -2,7 +2,7 @@
     <div class="bodyRegister">
        
 
-        <form @submit.prevent class="bodypage" >
+        <form @submit.prevent="verify" class="bodypage" >
             <div>
                 <HeFilledUiUserProfile class="icon" />
                 <input type="text" placeholder="NOM" v-model="lastname" required />
@@ -39,7 +39,7 @@
                 <CgKeyhole class="icon" />
                 <input type="password" placeholder="VALIDER MOT DE PASSE" v-model="password2" required />
             </div>
-            <button type="submit" @click="verify">SUIVANT</button>
+            <button type="submit" >SUIVANT</button>
         </form>
 
     </div>
@@ -66,7 +66,7 @@ const verify = () => {
     
     if (password.value.length && email.value.length && firstname.value.length && lastname.value.length && birthdate.value.length && password.value === password2.value) {
         register();
-       router.push('/profiles')
+      
     } else {
         alert("Les mots de passe ne correspondent pas.");
     }
@@ -111,7 +111,7 @@ const setTokenStore = (token) => {
   store.commit('setToken', token);
   store.commit('createToken', token);
 
-  router.push('/profiles')
+ 
 };
 
 const login = async () => {
@@ -140,7 +140,7 @@ const login = async () => {
 
     const result = await response.json();
 
-    
+    router.push('/profiles')
     setTokenStore(result.token);
   } catch (err) {
     console.error('Error during login:', err);
