@@ -34,14 +34,26 @@
             </div>
 
         </div>
+
         <div class="chat-input">
             <form @submit.prevent="sendMessage(username,text)">
-            <input class="writing" type="text" v-model="text" placeholder="Ecrivez votre message" />
+            <input @input="handleTyping" class="writing" type="text" v-model="text" placeholder="Ecrivez votre message" />
             <button type="submit"><BsArrowUpCircleFill/></button>
             </form>
         </div>
+
+        <div class="typing-indicator" v-if="typingUser">
+          <section class="exe1">
+            <p>{{ typingUser }} est en train d'écrire...</p>
+            <div></div>
+            <div></div>
+            <div></div>
+          </section>
+        </div>
+
       </div>
     </div>
+
 
 </template>
 
@@ -66,6 +78,11 @@ const route = useRoute()
 const id = route.params.id
 
 console.log("idUser", idUser);
+
+
+//------------- test message
+
+
 
 
 //-----------------------Return to matches
@@ -172,7 +189,8 @@ function handleFetch2(response)
 
   //-------------------------------------- WEBSOCKET
   
-  const username = ref(null)
+  const username = ref(user.value.firstname)
+  
   const text = ref(null)
   const messages = ref([])
   const socket = new WebSocket(`ws://${process.env.VUE_APP_WEB_SOCKET}`)
@@ -192,7 +210,7 @@ function handleFetch2(response)
     const second = String(date.getSeconds());
 
     sendingTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`
-    sendingTimeChat = `${minute}:${second}`;
+    sendingTimeChat = `${hour}:${minute}`;
 
     const data = {
     message: text.value,
@@ -296,6 +314,41 @@ const scrollEveryMessage = () => {
 onMounted(() => {
   scrollToEnd();
 });
+
+//**************************
+
+const isTyping = ref(false);
+const typingUser = ref(null);
+
+const handleTyping = () => {
+    if (!isTyping.value) {
+        isTyping.value = true;
+        socket.send(JSON.stringify({ user: username.value, typing: true }));
+    }
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+        isTyping.value = false;
+        socket.send(JSON.stringify({ user: username.value, typing: false }));
+    }, 1000);
+};
+
+let typingTimeout;
+
+text.value = ''; // Assure-toi d'initialiser text
+
+socket.onmessage = (event) => {
+  console.log(event);
+  
+    const message = JSON.parse(event.data);
+    console.log('bugname', message);
+    
+    if (message.typing !== undefined) {
+        typingUser.value = message.typing ? message.user : null;
+    } else {
+        messages.value.push(message);
+    }
+};
 
 
 
@@ -477,7 +530,44 @@ onMounted(() => {
   }
   .hour{
     display: block;
-    font-size: 0.7em;
+    font-size: 0.72em;
     margin-top: 3px
   }
+
+  section.exe1
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.exe1 div
+{
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    background-color: $primary;
+    border-radius: 50%;
+    margin: 5px;
+    animation: bounce 700ms infinite linear;
+}
+.exe1 div:nth-child(2)
+{
+    animation-delay: 100ms;
+}
+.exe1 div:nth-child(3)
+{
+    animation-delay: 200ms;
+}
+
+@keyframes bounce 
+{
+    20%
+    {
+        translate: 0 -50%;
+    }
+    60%
+    {
+        translate: 0 -50%;
+    }
+}
 </style>
