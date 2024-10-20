@@ -23,7 +23,7 @@
   <div class="chat-container">
 
       <div class="chat-window">
-        <div class="messages-container">
+        <div class="messages-container" ref="article">
           
             <div v-for="(val, index) in messages" :key="index" :class="[val.user === idUser ? 'right-bubble' : 'left-bubble']">
                <p class="message">
@@ -34,14 +34,34 @@
             </div>
 
         </div>
+
         <div class="chat-input">
             <form @submit.prevent="sendMessage(username,text)">
-            <input class="writing" type="text" v-model="text" placeholder="Ecrivez votre message" />
-            <button type="submit"><BsArrowUpCircleFill/></button>
+            <input @input="handleTyping" class="writing" type="text" v-model="text" placeholder="Ecrivez votre message" />
+            <button class="sendMessage" type="submit"><BsArrowUpCircleFill/></button>
+            <button class="smiley" type="button" @click="toggleEmojiPicker">😊</button>
+            <EmojiPicker  v-if="showEmojiPicker"  @select="addEmoji" style="position: absolute; bottom: 50px; right: 0;" />
             </form>
         </div>
+
+        <div class="typing-indicator" v-if="typingUser">
+          <section class="exe1">
+            <p>{{ typingUser }} est en train d'écrire...</p>
+            <div></div>
+            <div></div>
+            <div></div>
+          </section>
+        </div>
+
       </div>
     </div>
+    <!-- <emoji-picker
+          v-if="showEmojiPicker"
+          @emoji-click="addEmoji"
+          style="position: absolute; bottom: 50px; left: 0;"
+        /> -->
+
+
 
 </template>
 
@@ -49,10 +69,30 @@
 
 import { useRouter } from 'vue-router';
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router'
 import { BsArrowUpCircleFill, BsArrowLeftShort } from '@kalimahapps/vue-icons';
 import store from '@/store';
+
+//emoji
+// pour installer -> npm install vue3-emoji-picker
+import EmojiPicker from 'vue3-emoji-picker'
+import 'vue3-emoji-picker/css'
+const showEmojiPicker = ref(false);
+
+const toggleEmojiPicker = () => {
+  showEmojiPicker.value = !showEmojiPicker.value;
+};
+
+// Function to add the selected emoji to the message input
+const addEmoji = (emoji) => {
+  console.log("emoji", emoji);
+  
+  text.value += emoji.i; // Ajoute l'émoji à la zone de texte
+  showEmojiPicker.value = false; // Masquer le sélecteur après sélection
+};
+
+
 
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -66,6 +106,10 @@ const route = useRoute()
 const id = route.params.id
 
 console.log("idUser", idUser);
+
+
+
+
 
 //-----------------------Return to matches
 
@@ -171,7 +215,8 @@ function handleFetch2(response)
 
   //-------------------------------------- WEBSOCKET
   
-  const username = ref(null)
+  const username = ref(user.value.firstname)
+  
   const text = ref(null)
   const messages = ref([])
   const socket = new WebSocket(`ws://${process.env.VUE_APP_WEB_SOCKET}`)
@@ -191,7 +236,7 @@ function handleFetch2(response)
     const second = String(date.getSeconds());
 
     sendingTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`
-    sendingTimeChat = `${minute}:${second}`;
+    sendingTimeChat = `${hour}:${minute}`;
 
     const data = {
     message: text.value,
@@ -200,28 +245,28 @@ function handleFetch2(response)
     hour: sendingTime
   };
 
-  try {
-    const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/messages/addMessage`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-      },
-    });
+  // try {
+  //   const response = await fetch(`${process.env.VUE_APP_IP_ADDRESS}/api/messages/addMessage`, {
+  //     method: 'POST',
+  //     body: JSON.stringify(data),
+  //     headers: {
+  //       'Accept': 'application/json, text/plain, */*',
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
     
     
-    if (!response.ok) {
-      console.log("ERREUR");
-      alert("Impossible de sauvegarder le message");
-      return;
-    }
+  //   if (!response.ok) {
+  //     console.log("ERREUR");
+  //     alert("Impossible de sauvegarder le message");
+  //     return;
+  //   }
 
-    const result = await response.json();
-    console.log(result);
-  } catch (err) {
-    console.error('Message non sauvegarder:', err);
-  }
+  //   const result = await response.json();
+  //   console.log(result);
+  // } catch (err) {
+  //   console.error('Message non sauvegarder:', err);
+  // }
     //TODO username et IDUSER
    
       const messageData = { user: idUser, message: text.value, hour: sendingTimeChat};
@@ -231,6 +276,8 @@ function handleFetch2(response)
       messages.value.push(messageData)
       // Clear the text input
       text.value = null;
+
+      scrollEveryMessage();
 }
   
 
@@ -243,7 +290,93 @@ function handleFetch2(response)
   }
 
 
+
+
+
+  //------------------------------- SCROLL
+
+  //------------------ go to the end + automatic scroll
+
+
+const article = ref(null);
+
+// onMounted(() => {
+//       setTimeout(() => {
+//         window.scrollTo(0, document.body.scrollHeight);
+//       }, 300); 
+//     });
+
+// function goToTheEnd(){
+//   setTimeout(() => {
+//     window.scrollTo(0, document.body.scrollHeight);
+//   }, 50);
+// }
+
+const scrollToEnd = () => {
+  if (article.value) {
+    setTimeout(() => {
+      const { offsetTop, clientHeight } = article.value;
+      console.log('cx', clientHeight);
+      
+      const end = offsetTop + clientHeight - (620);
+      console.log('end', end);
+      
+      window.scrollTo({ top: end});
+    }, 100); 
+  }
+};
+
+const scrollEveryMessage = () => {
+  if (article.value) {
+    setTimeout(() => {
+      const { offsetTop, clientHeight } = article.value;
+      const end = offsetTop + clientHeight - (620);
+      window.scrollTo({ top: end, behavior: 'smooth'});
+    }, 100); 
+  }
+};
+
+
+onMounted(() => {
+  scrollToEnd();
+});
+
+//**************************
+
+const isTyping = ref(false);
+const typingUser = ref(null);
+
+const handleTyping = () => {
+    if (!isTyping.value) {
+        isTyping.value = true;
+        socket.send(JSON.stringify({ user: username.value, typing: true }));
+    }
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+        isTyping.value = false;
+        socket.send(JSON.stringify({ user: username.value, typing: false }));
+    }, 1000);
+};
+
+let typingTimeout;
+
+text.value = ''; // Assure-toi d'initialiser text
+
+socket.onmessage = (event) => {
+  console.log(event);
   
+    const message = JSON.parse(event.data);
+    console.log('bugname', message);
+    
+    if (message.typing !== undefined) {
+        typingUser.value = message.typing ? message.user : null;
+    } else {
+        messages.value.push(message);
+    }
+};
+
+
 
 
 </script>
@@ -379,7 +512,7 @@ function handleFetch2(response)
     width: 90%;
     height: 50%;
   }
-  .chat-input button {
+  .chat-input .sendMessage {
     background-color: white;
     color: rgb(249, 112, 104);
     padding: 5px;
@@ -389,7 +522,24 @@ function handleFetch2(response)
     width: 40px;
     height: 40px;
     font-size: 2em;
+    display: flex;
+    margin: 5px;
+
   }
+
+  .smiley{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 5px;
+    text-align: center;
+    height: 10px;
+    padding: 15px;
+    margin: 5px;
+    font-size: 1em;
+  }
+
   .messages-container{
     background-color: white;
   }
@@ -423,7 +573,45 @@ function handleFetch2(response)
   }
   .hour{
     display: block;
-    font-size: 0.7em;
+    font-size: 0.72em;
     margin-top: 3px
   }
+
+  section.exe1
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.exe1 div
+{
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    background-color: $primary;
+    border-radius: 50%;
+    margin: 5px;
+    animation: bounce 700ms infinite linear;
+}
+.exe1 div:nth-child(2)
+{
+    animation-delay: 100ms;
+}
+.exe1 div:nth-child(3)
+{
+    animation-delay: 200ms;
+}
+
+
+@keyframes bounce 
+{
+    20%
+    {
+        translate: 0 -50%;
+    }
+    60%
+    {
+        translate: 0 -50%;
+    }
+}
 </style>

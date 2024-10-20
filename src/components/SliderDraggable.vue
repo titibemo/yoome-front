@@ -1,153 +1,104 @@
 <template>
-    <div class="slider" 
-         @mousedown="startDrag" 
-         @mouseup="endDrag" 
-         @mouseleave="endDrag" 
-         @mousemove="onDrag">
-      <div class="slides" :style="{transform: `translateX(calc(-${currentSlide * 100}% + 0px))` }">
-        <div :style="{margin: '0px'}" class="slide" v-for="(slide, index) in slides" :key="index">
-            <div class="slideContent">
-                <h3>"Après mon divorce, je pensais que ma vie amoureuse était terminée."</h3>
-                <p>Ce site m'a donné espoir. Les profils sont serieux, et les outils pour trouver des gens compatibles sont vraiment efficaces. J'ai trouvé quelqu'un avec qui je peux construire une nouvelle vie, tout en fardant ma fille comme priorité"</p>
-                <div>
-                  <img class="reviewPictures" src="./../assets/pictures/home/heart.png" alt="">
-                  <p class="strong"> <em>Julie <span class="ages">36 ans,</span><br>
-                      MAMAN D'UNE ADOLESCENTE </em>
-                  </p>
-                </div>
-            </div>
-        </div>
-      </div>
-      <div class="dots">
-        <span 
-          v-for="(slide, index) in slides" 
-          :key="index" 
-          :class="{ active: currentSlide === index }" 
-          @click="goToSlide(index)">
-        </span>
+  <div class="slider" 
+       @mousedown="startDrag" 
+       @mouseup="endDrag" 
+       @mouseleave="endDrag" 
+       @mousemove="onDrag"
+       @touchstart="startDragTouch" 
+       @touchend="endDrag" 
+       @touchmove="onDragTouch">
+    <div class="slides" :style="{transform: `translateX(calc(-${currentSlide * 100}% + 0px))` }">
+      <div :style="{margin: '0px'}" class="slide" v-for="(slide, index) in slides" :key="index">
+          <div class="slideContent">
+              <h3>"Après mon divorce, je pensais que ma vie amoureuse était terminée."</h3>
+              <p>Ce site m'a donné espoir. Les profils sont serieux, et les outils pour trouver des gens compatibles sont vraiment efficaces. J'ai trouvé quelqu'un avec qui je peux construire une nouvelle vie, tout en fardant ma fille comme priorité"</p>
+              <div>
+                <img class="reviewPictures" src="./../assets/pictures/home/heart.png" alt="">
+                <p class="strong"> <em>Julie <span class="ages">36 ans,</span><br>
+                    MAMAN D'UNE ADOLESCENTE </em>
+                </p>
+              </div>
+          </div>
       </div>
     </div>
-
-    <!-- 2eme caroussel avec fleches
-    
-
-    <div class="carousel">
-    <div class="carousel-inner" :style="carouselStyle">
-      <div class="slide" v-for="(slide, index) in slides" :key="index">
-        <h3>"Après mon divorce, je pensais que ma vie amoureuse était terminée."</h3>
-        <p>Ce site m'a donné espoir. Les profils sont serieux, et les outils pour trouver des gens compatibles sont vraiment efficaces. J'ai trouvé quelqu'un avec qui je peux construire une nouvelle vie, tout en fardant ma fille comme priorité"</p>
-        <div>
-          <img class="reviewPictures" src="./../assets/pictures/home/heart.png" alt="">
-          <p class="strong"> <em>Julie <span class="ages">36 ans,</span><br>
-              MAMAN D'UNE ADOLESCENTE </em>
-          </p>
-        </div>
-      </div>
+    <div class="dots">
+      <span 
+        v-for="(slide, index) in slides" 
+        :key="index" 
+        :class="{ active: currentSlide === index }" 
+        @click="goToSlide(index)">
+      </span>
     </div>
-    <div class id="dots-con" >
-
-      <span v-for="(slide, index) in slides" :key="index" class="dot" :style="{backgroundColor: currentIndex == index ? 'rgba(249, 112, 104, 1)' : 'rgba(219, 228, 245, 1)'}"></span>
-
-    </div>
-   
-    <span class="prev" @click="prev">←</span>
-    <span class="next" @click="next">→</span>
-
-  
   </div>
-    
-    -->
+</template>
 
+<script setup>
+import { ref } from 'vue';
 
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  
-  const currentSlide = ref(0);
-  const slides = ref([0, 1, 2, 3, 4]);
-  
-  const isDragging = ref(false);
-  const startX = ref(0);
-  const offsetX = ref(0);
-  
-  const startDrag = (event) => {
-    isDragging.value = true;
-    startX.value = event.clientX;
-    offsetX.value = 0;
-  };
-  
-  const onDrag = (event) => {
-    if (!isDragging.value) return;
-    offsetX.value = event.clientX - startX.value;
-  
-    if (Math.abs(offsetX.value) > 50) {
+const currentSlide = ref(0);
+const slides = ref([0, 1, 2, 3, 4]);
+
+const isDragging = ref(false);
+const startX = ref(0);
+const offsetX = ref(0);
+
+const startDrag = (event) => {
+  isDragging.value = true;
+  startX.value = event.clientX;
+  offsetX.value = 0;
+};
+
+const startDragTouch = (event) => {
+  isDragging.value = true;
+  startX.value = event.touches[0].clientX; 
+  offsetX.value = 0;
+};
+
+const onDrag = (event) => {
+  if (!isDragging.value) return;
+  offsetX.value = event.clientX - startX.value;
+
+  if (Math.abs(offsetX.value) > 50) {
       if (offsetX.value > 0) {
-        prevSlide();
+          prevSlide();
       } else {
-        nextSlide();
+          nextSlide();
       }
       isDragging.value = false;
-    }
-  };
-  
-  const endDrag = () => {
-    isDragging.value = false;
-  };
-  
-  const nextSlide = () => {
-    currentSlide.value = (currentSlide.value + 1) % slides.value.length;
-  };
-  
-  const prevSlide = () => {
-    currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
-  };
-  
-  const goToSlide = (index) => {
-    currentSlide.value = index;
-  };
+  }
+};
 
+const onDragTouch = (event) => {
+  if (!isDragging.value) return;
+  offsetX.value = event.touches[0].clientX - startX.value;
 
- /* script 2eme caroussel sans drag
-
-
-  const slides = ref([0, 1, 2, 3, 4]);
-    const currentIndex = ref(0);
-
-    const carouselStyle = computed(() => ({
-      transform: `translateX(-${currentIndex.value * 100}%)`,
-      transition: 'transform 0.3s ease',
-    }));
-
-    const next = () => {
-      currentIndex.value = currentIndex.value + 1
-
-      if(currentIndex.value>slides.value.length-1){
-        currentIndex.value=0;
-      }
-  
-      if(currentIndex.value<0){
-        currentIndex.value=slides.value.length-1;
-      }
-    };
-
-    const prev = () => {
-      currentIndex.value = currentIndex.value - 1 ;
-
-      if(currentIndex.value >= slides.value.length-1){
-        currentIndex.value=0;
+  if (Math.abs(offsetX.value) > 50) {
+      if (offsetX.value > 0) {
+          prevSlide();
       } else {
-        curentIndex.value++ 
+          nextSlide();
       }
-  
-      if(currentIndex.value<0){
-        currentIndex.value=slides.value.length-1;
-      }
-    };
-  */
+      isDragging.value = false;
+  }
+};
 
+const endDrag = () => {
+  isDragging.value = false;
+};
 
-  </script>
+const nextSlide = () => {
+  currentSlide.value = (currentSlide.value + 1) % slides.value.length;
+};
+
+const prevSlide = () => {
+  currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
+};
+
+const goToSlide = (index) => {
+  currentSlide.value = index;
+};
+</script>
+
   
   <style scoped lang="scss">
   * {
