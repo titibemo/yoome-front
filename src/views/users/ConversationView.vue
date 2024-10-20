@@ -39,6 +39,8 @@
             <form @submit.prevent="sendMessage(username,text)">
             <input @input="handleTyping" class="writing" type="text" v-model="text" placeholder="Ecrivez votre message" />
             <button type="submit"><BsArrowUpCircleFill/></button>
+            <button class="smiley" type="button" @click="toggleEmojiPicker">😊</button>
+            <EmojiPicker  v-if="showEmojiPicker"  @select="addEmoji" style="position: absolute; bottom: 50px; right: 0;" />
             </form>
         </div>
 
@@ -53,6 +55,12 @@
 
       </div>
     </div>
+    <!-- <emoji-picker
+          v-if="showEmojiPicker"
+          @emoji-click="addEmoji"
+          style="position: absolute; bottom: 50px; left: 0;"
+        /> -->
+
 
 
 </template>
@@ -65,6 +73,26 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router'
 import { BsArrowUpCircleFill, BsArrowLeftShort } from '@kalimahapps/vue-icons';
 import store from '@/store';
+
+//emoji
+// pour installer -> npm install vue3-emoji-picker
+import EmojiPicker from 'vue3-emoji-picker'
+import 'vue3-emoji-picker/css'
+const showEmojiPicker = ref(false);
+
+const toggleEmojiPicker = () => {
+  showEmojiPicker.value = !showEmojiPicker.value;
+};
+
+// Function to add the selected emoji to the message input
+const addEmoji = (emoji) => {
+  console.log("emoji", emoji);
+  
+  text.value += emoji.i; // Ajoute l'émoji à la zone de texte
+  showEmojiPicker.value = false; // Masquer le sélecteur après sélection
+};
+
+
 
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -79,8 +107,6 @@ const id = route.params.id
 
 console.log("idUser", idUser);
 
-
-//------------- test message
 
 
 
@@ -557,6 +583,13 @@ socket.onmessage = (event) => {
 .exe1 div:nth-child(3)
 {
     animation-delay: 200ms;
+}
+
+.smiley{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 @keyframes bounce 

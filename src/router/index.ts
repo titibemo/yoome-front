@@ -82,6 +82,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'app_users_conversation',
     component: () => import('../views/users/ConversationView.vue')
   },
+  {
+    path: '/test',
+    name: 'app_test',
+    component: () => import('../views/users/TestView.vue')
+  },
 ];
 
 const router = createRouter({
