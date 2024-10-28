@@ -47,7 +47,7 @@
 
 <script setup>
 /*eslint-disable no-undef*/
-//dd//
+
 import { computed, onMounted, ref } from 'vue';
 import { AkXSmall } from '@kalimahapps/vue-icons';
 import store from '@/store';
