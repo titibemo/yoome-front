@@ -99,24 +99,6 @@ const router = createRouter({
   }
 });
 
-router.beforeEach((to, from, next) => {
-  const store = useStore();
-  const isLoggedIn = store.getters.isLoggedIn;
-  const isAdmin = store.getters.isAdmin;
-
-  if (['/', '/inscription', '/'].includes(to.path)) {
-    next();
-  } else if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isLoggedIn) {
-      next('/');
-    } else if (to.matched.some(record => record.meta.requiresAdmin) && !isAdmin) {
-      next('/');
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
+  
 
 export default router;

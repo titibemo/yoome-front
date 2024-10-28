@@ -56,11 +56,12 @@
 </template>
 
 <script setup>
+/*eslint-disable no-undef*/
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
-import { HeFilledUiUserProfile, IcProfileCircle, FlFilledPeopleCommunity, McBirthday2Fill, CoBrandMailRu, CgKeyhole, MdDescription } from '@kalimahapps/vue-icons';
+import { IcProfileCircle} from '@kalimahapps/vue-icons';
 
 const router = useRouter();
 const store = useStore();
