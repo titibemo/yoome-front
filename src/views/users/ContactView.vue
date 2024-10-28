@@ -30,6 +30,7 @@
 </template>
 
 <script setup>
+
 import router from '@/router';
 import { ref } from 'vue';
 import { HeFilledUiUserProfile, IcProfileCircle,BxPhone,  CoBrandMailRu, MdDescription } from '@kalimahapps/vue-icons';
@@ -37,11 +38,11 @@ import { HeFilledUiUserProfile, IcProfileCircle,BxPhone,  CoBrandMailRu, MdDescr
 const email = ref('');
 const firstname = ref('');
 const lastname = ref('');
-const birthdate = ref('');
-const password = ref('');
-const password2 = ref('');
+// const birthdate = ref('');
+// const password = ref('');
+// const password2 = ref('');
 
-const genre = ref('');
+// const genre = ref('');
 
 
 const verify = () => {

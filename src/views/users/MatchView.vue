@@ -3,7 +3,7 @@
 
 
     <section class="matches">
-        <div v-for="match in matchs">
+        <div v-for="match in matchs" :key="match.channel" >
             <a :href="`${ipAddressFront}/conversation/${match.channel}`">
                 <div>
                     <img :src="`${url}${match.selfie}`" alt="selfie">
@@ -17,7 +17,7 @@
     <section class="conversation">
         <h2>MESSAGES</h2>
         
-        <div v-for="match in matchs">
+        <div v-for="match in matchs" :key="match.channel">
             <a :href="`${ipAddressFront}/conversation/${match.channel}`">
                 <div>
                     <img class="selfie" :src="`${url}${match.selfie}`" alt="">
@@ -36,6 +36,7 @@
 </template>
 
 <script setup>
+/*eslint-disable no-undef*/
 //import router from '@/router';
 
 import { ref, computed } from 'vue';

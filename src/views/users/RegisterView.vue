@@ -46,10 +46,11 @@
 </template>
 
 <script setup>
+/*eslint-disable no-undef*/
 import router from '@/router';
 import { ref } from 'vue';
 import store from '@/store';
-import { HeFilledUiUserProfile, IcProfileCircle, FlFilledPeopleCommunity, McBirthday2Fill, CoBrandMailRu, CgKeyhole, MdDescription } from '@kalimahapps/vue-icons';
+import { HeFilledUiUserProfile, IcProfileCircle, FlFilledPeopleCommunity, McBirthday2Fill, CoBrandMailRu, CgKeyhole} from '@kalimahapps/vue-icons';
 
 const email = ref('');
 const firstname = ref('');

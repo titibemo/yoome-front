@@ -51,6 +51,7 @@
 </template>
 
 <script setup>
+/*eslint-disable no-undef*/
 import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
 import { AkPencil } from '@kalimahapps/vue-icons';

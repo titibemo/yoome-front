@@ -61,9 +61,9 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useStore } from 'vuex';
-import {ref} from 'vue';
+
 import router from '@/router';
 
 import SliderDraggable from '@/components/SliderDraggable.vue';
@@ -74,47 +74,41 @@ onMounted(() => {
   
 });
 const store = useStore();
-const user = ref(computed(() => store.state.user)); // Récupère les infos de l'utilisateur depuis le store
-
-const deco = () => {
-    store.dispatch('logout')
-    router.push('/connexion')
-}
 
 //--------carroussel
 
 
-    const slides = ref([0, 1, 2, 3, 4]);
-    const currentIndex = ref(0);
+    // const slides = ref([0, 1, 2, 3, 4]);
+    // const currentIndex = ref(0);
 
-    const carouselStyle = computed(() => ({
-      transform: `translateX(-${currentIndex.value * 100}%)`,
-      transition: 'transform 0.3s ease',
-    }));
+    // const carouselStyle = computed(() => ({
+    //   transform: `translateX(-${currentIndex.value * 100}%)`,
+    //   transition: 'transform 0.3s ease',
+    // }));
 
-    const next = () => {
-      currentIndex.value = currentIndex.value + 1
+    // const next = () => {
+    //   currentIndex.value = currentIndex.value + 1
 
-      if(currentIndex.value>slides.value.length-1){
-        currentIndex.value=0;
-      }
+    //   if(currentIndex.value>slides.value.length-1){
+    //     currentIndex.value=0;
+    //   }
   
-      if(currentIndex.value<0){
-        currentIndex.value=slides.value.length-1;
-      }
-    };
+    //   if(currentIndex.value<0){
+    //     currentIndex.value=slides.value.length-1;
+    //   }
+    // };
 
-    const prev = () => {
-      currentIndex.value = currentIndex.value - 1 ;
+    // const prev = () => {
+    //   currentIndex.value = currentIndex.value - 1 ;
 
-      if(currentIndex.value>slides.value.length-1){
-        currentIndex.value=0;
-      }
+    //   if(currentIndex.value>slides.value.length-1){
+    //     currentIndex.value=0;
+    //   }
   
-      if(currentIndex.value<0){
-        currentIndex.value=slides.value.length-1;
-      }
-    };
+    //   if(currentIndex.value<0){
+    //     currentIndex.value=slides.value.length-1;
+    //   }
+    // };
 
     const register = () => {
       router.push('/inscription')
