@@ -1,7 +1,7 @@
 <template>
 
     <section class="matches">
-        <div v-for="match in matchs">
+        <div v-for="match in matchs" :key="match.channel">
             <a :href="`${ipAddressFront}/conversation/${match.channel}`">
                 <div>
                     <img :src="`${url}${match.selfie}`" alt="selfie">
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import router from '@/router';
+/*eslint-disable no-undef*/
 import { computed, onMounted, ref } from 'vue';
 import { AkXSmall } from '@kalimahapps/vue-icons';
 import store from '@/store';
