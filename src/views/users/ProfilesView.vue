@@ -23,7 +23,7 @@
         </div>
 
         <div class="bodypage2" v-if="QuestionIndex === 2">
-            <p>3/6. Décrivez-vous. </p>
+            <p>3/6. Décrivez-vous . 3 MAX </p>
             <div class="characterTraits-container">
                 <div class="characterTraits-item" v-for="(question, index) in question3" :key="index"
                     @click="toggleSelection(index, question)" :class="{ selected: descrip.includes(question) }">
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="bodypage2" v-if="QuestionIndex === 3">
-            <p>4/6. Qu'aimer-vous ? </p>
+            <p>4/6. Qu'aimer-vous ? 3 MAX</p>
             <div class="characterTraits-container">
                 <div class="characterTraits-item" v-for="(question, index) in question4" :key="index"
                     @click="toggleSelection(index, question)" :class="{ selected: like.includes(question) }">
@@ -121,6 +121,7 @@
 </template>
 
 <script setup>
+/*eslint-disable no-undef*/
 import router from '@/router';
 import { ref } from 'vue';
 import { FlFilledPeopleCommunity, MdDescription, AnOutlinedCheckCircle,MdOutlinedAddAPhoto } from '@kalimahapps/vue-icons';
@@ -153,17 +154,16 @@ const question4 = [
     "JUNK FOOD",
     "RANDONNÉE",
     "HEALTHY FOOD",
-    "CINÉMA/SÉRIES TV",
     "MANGA",
     "LECTURE",
-    "SPORT",
-    "JEUX VIDÉOS",
     "MUSIQUE",
     "VOYAGES",
+    "JEUX VIDÉOS",
     "ANIMAUX",
-    "SOIRÉES ENTRE AMIS",
-    
+    "SPORT",
     "MUSÉE",
+    "SOIRÉES ENTRE AMIS",
+    "CINÉMA/SÉRIES TV",
 ];
 
 

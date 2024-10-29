@@ -53,7 +53,7 @@
             <button type="submit">Sauvegarder</button>
         </form>
         <div class="ligne"></div>
-        <button type="" @click="delete">supprimer mon compte </button>
+        <button type="">supprimer mon compte </button>
         <h4>Cette action est définitive. <br> Votre profil, ainsi que toutes vos données, <br> seront supprimés de façon
             irréversible.</h4>
         <div class="ligne"></div>
@@ -61,6 +61,7 @@
 </template>
 
 <script setup>
+/*eslint-disable no-undef*/
 import router from '@/router';
 import { computed, ref } from 'vue';
 import store from '@/store';
@@ -70,10 +71,10 @@ const user = computed(() => store.state.user || {});
 const email = ref('');
 const firstname = ref('');
 const lastname = ref('');
-const birthdate = ref('');
-const description = ref('')
-const genreRecherche = ref('')
-const oldpassword = ref('');
+// const birthdate = ref('');
+// const description = ref('')
+// const genreRecherche = ref('')
+// const oldpassword = ref('');
 const password = ref('');
 const password2 = ref('');
 
