@@ -17,7 +17,7 @@ onMounted(() => {
   store.dispatch('checkAuth');
 });
 
-
+//test
 
 
 </script>
